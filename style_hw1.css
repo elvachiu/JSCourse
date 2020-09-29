@@ -1,0 +1,7 @@
+body{
+    color: rgb(38, 136, 202); font-family: Arial, Helvetica, sans-serif;
+    background-color: beige;
+}
+h1, p{
+    text-align: center;
+}
