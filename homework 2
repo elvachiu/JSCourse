@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="hw2.css">
+        <title>HomePage-0713462</title>
+    </head>
+    <body>
+        <nav>
+            <figure id="logo">
+                <img src="work-from-home.png" alt="logo">
+                <figcaption>Company's Name</figcaption>
+            </figure>
+            <ul id="menu">
+                <li><a href="">Homepage</a></li>
+                <li><a href="">About Me</a></li>
+                <li><a href="">Content 1</a></li>
+                <li><a href="">Content 2</a></li>
+                <li><a href="">Content 3</a></li>
+                <li><a href="">Contact</a></li>
+            </ul>
+            <div id="form-search">
+                <form action="#" method="post">
+                    <label for="search"> Search: </label>
+                    <input type="search" value="" placeholder="type in some keywords">
+                    <input type="submit" value="Go">
+                </form>
+            </div>
+        </nav>
+        <header>
+            <h1>My Homepage</h1>
+        </header>
+        <footer>
+            <p id="copyright">&copy; 2020 logo: made by <a href="https://www.flaticon.com/free-icon/work-from-home_3169223" title="mavadee">mavadee</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></p>
+        </footer>
+    </body>
+</html>
