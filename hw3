@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="hw3.css">
+    <title>homework3 0713462</title>
+</head>
+<body>
+    <h1>Magic Game - Guess the Number</h1>
+    <script type="text/javascript" src="hw3.js"></script>
+    <footer>&copy 2020</footer>
+</body>
+</html>
