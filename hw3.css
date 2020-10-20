@@ -1,0 +1,31 @@
+*{
+    /*reset default style*/
+    margin: 0;
+    padding: 0;
+}
+body{
+    color: rgb(38, 136, 202); 
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: beige;
+}
+h1{
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+table{
+    border-color: cadetblue;
+    border-style: solid;
+    display: inline-block;
+}
+tr, td{
+    text-align: center;
+}
+footer{
+    clear: both;
+    text-align: center;
+    margin: 0px;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+}
