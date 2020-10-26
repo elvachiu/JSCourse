@@ -9,9 +9,8 @@ body{
     background-color: beige;
 }
 h1{
-    text-align: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    text-align: left;
+    padding: 15px;
 }
 table{
     border-color: cadetblue;
@@ -20,12 +19,5 @@ table{
 }
 tr, td{
     text-align: center;
-}
-footer{
-    clear: both;
-    text-align: center;
-    margin: 0px;
-    bottom: 10px;
-    left: 0;
-    width: 100%;
+    padding: 2px;
 }
