@@ -8,6 +8,5 @@
 <body>
     <h1>Magic Game - Guess the Number</h1>
     <script type="text/javascript" src="hw3.js"></script>
-    <footer>&copy 2020</footer>
 </body>
 </html>
