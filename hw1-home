@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="hw1.css">
+        <title>Home Page 0713462</title>
+    </head>
+    <body>
+        <div id="nav">
+            <ul>
+                <li class="currentPage"><a href="hw1-home.html">Home</a></li>
+                <li class="dropdown"><a href="javascript:void(0)" dropbtn>Projects</a>
+                    <div class="dropdown-content">
+                        <a href="">homework 1</a>
+                        <a href="">homework 2</a>
+                        <a href="hw1-homework3.html">homework 3</a>
+                    </div>
+                </li>
+                <li><a href="hw1-services.html">Services</a></li>
+                <li><a href="hw1-about.html">About</a></li>
+                <li><a href="hw1-contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <header>
+            <h1>My Homepage</h1>
+        </header>
+        <div class="row">
+            <div class="columnL">
+              <h2>Column</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
+            </div>
+            <div class="column">
+                <h2>Column</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
+            </div>
+            <div class="columnR">
+                <h2>Column</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
+                <blockquote>"Each day you must choose the pain of discipine or the pain of regret"</blockquote>
+            </div>
+        </div>
+        <footer>
+            <p id="copyright">&copy; 2020</p>
+        </footer>
+    </body>
+</html>
