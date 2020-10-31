@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="hw1.css">
+        <title>About Me 0713462</title>
+    </head>
+    <body>
+        <div id="nav">
+            <ul>
+                <li><a href="hw1-home.html">Home</a></li>
+                <li class="dropdown"><a href="javascript:void(0)" dropbtn>Projects</a>
+                    <div class="dropdown-content">
+                        <a href="">homework 1</a>
+                        <a href="">homework 2</a>
+                        <a href="hw1-homework3.html">homework 3</a>
+                    </div>
+                </li>
+                <li><a href="hw1-services.html">Services</a></li>
+                <li class="currentPage"><a href="hw1-about">About</a></li>
+                <li><a href="hw1-contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <header>
+            <h1>About Me</h1>
+        </header>
+        <div class="columnL"><img id="profile" src="profile.jpg" alt="my profile photo"></div>
+        <div id="aboutme" class="column">
+            <div class="title">
+                <h2>邱靖詒</h2>
+                <p><strong>Nickname： </strong>Elva</p>
+                <p><strong>Birthday：</strong>11/01/1999</p>
+                <p><strong>Id Number：</strong>0713462</p>
+                <p><strong>Department：</strong>資財系 IMF</p>
+                <p><strong>Email：</strong>elva1999@gmail.com</p>
+            </div>
+        </div>
+        <div class="columnR">
+            <blockquote>"Each day you must choose the pain of discipine or the pain of regret"</blockquote>
+        </div>
+        <footer>
+            <p id="copyright">&copy; 2020</p>
+        </footer>
+    </body>
+</html>
