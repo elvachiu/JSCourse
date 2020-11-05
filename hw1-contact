@@ -16,15 +16,26 @@
                         <a href="hw1-homework3.html">homework 3</a>
                     </div>
                 </li>
-                <li><a href="hw1-services.html">Services</a></li>
+                <li><a href="hw1-notes.html">Notes</a></li>
                 <li><a href="hw1-about.html">About</a></li>
                 <li class="currentPage"><a href="hw1-contact.html">Contact</a></li>
             </ul>
         </div>
         <header>
-            <h1>Contact</h1>
+            <h1>Contact Me</h1>
         </header>
-        
+        <div id="contact">
+            <ul>
+                <li><a href="https://www.facebook.com/elva.chiu.50/" target="_blank"><img id="snsimg" src="fb.png" alt="facebook"> Facebook: elva chiu</a></li>
+                <li><a href="https://www.instagram.com/chingyi.1101/" target="_blank"><img id="snsimg" src="insta.png" alt="instagram"> Instagram: chingyi.1101</a></li>
+                <li><a href="https://twitter.com/elva_chiu" target="_blank"><img id="snsimg" src="twit.png" alt="twitter"> Twitter: elva_chiu</a></li>
+                <li><a href="https://accounts.google.com/ServiceLogin" target="_blank"><img id="snsimg" src="mail.png" alt="gmail"> Gmail: elva1999@gmail.com</a></li>
+            </ul>
+            <br>
+            <p>Welcome to have some academic discussions with me, </p><br>
+            <p>and also would love to make friends :)</p><br>
+            <p>Hope the world to be a better place. Peace and love. ♡</p><br>
+        </div>
         <footer>
             <p id="copyright">&copy; 2020</p>
         </footer>
