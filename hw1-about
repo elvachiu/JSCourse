@@ -16,7 +16,7 @@
                         <a href="hw1-homework3.html">homework 3</a>
                     </div>
                 </li>
-                <li><a href="hw1-services.html">Services</a></li>
+                <li><a href="hw1-notes.html">Notes</a></li>
                 <li class="currentPage"><a href="hw1-about">About</a></li>
                 <li><a href="hw1-contact.html">Contact</a></li>
             </ul>
@@ -28,14 +28,37 @@
         <div id="aboutme" class="column">
             <div class="title">
                 <h2>邱靖詒</h2>
-                <p><strong>Nickname： </strong>Elva</p>
+                <p><strong>English Name： </strong>Elva</p>
                 <p><strong>Birthday：</strong>11/01/1999</p>
-                <p><strong>Id Number：</strong>0713462</p>
+                <p><strong>ID Number：</strong>0713462</p>
                 <p><strong>Department：</strong>資財系 IMF</p>
-                <p><strong>Email：</strong>elva1999@gmail.com</p>
+                <p><strong>Education：</strong>currently study in NCTU</p>
             </div>
         </div>
         <div class="columnR">
+            <!-- working on the slideshow
+            <div>
+                <img class="mySlides" src="mypic.JPG" style="width:75%">
+                <img class="mySlides" src="profile.jpg" style="width:75%">
+                <img class="mySlides" src="insta.png" style="width:75%">
+            </div>
+            <script>
+                let myIndex = 0;
+                function slideshow(){
+                  let i, x = document.getElementsByClassName("mySlides");
+                  for(i=0; i<x.length; i++){
+                    x[i].style.display="none";
+                  }
+                  myIndex++;
+                  if(myIndex > x.length){
+                      myIndex = 1;
+                    }    
+                  x[myIndex-1].style.display="block";  
+                  setTimeout(carousel, 2000); //Change images every 2 seconds
+                }
+                slideshow();
+            </script>
+            -->
             <blockquote>"Each day you must choose the pain of discipine or the pain of regret"</blockquote>
         </div>
         <footer>
