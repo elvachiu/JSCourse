@@ -70,27 +70,20 @@ header{
     margin: 5px;
     padding: 5px;
 }
-
-.columnL, .columnR{
+/*to set columns*/
+.columnL, .columnR{ /*for two sides*/
     float: left;
     width: 25%;
     padding: 10px;
     position: relative;
+    font-size: smaller;
 }
-.column{
+.column{ /*for content in the middle*/
     float: left;
     width: 45%;
     padding: 10px;
     position: relative;
 }
-/*Create three equal columns that floats next to each other
-.column{
-    float: left;
-    width: 32%;
-    padding: 8px;
-    position: relative;
-}
-*/
 
 footer{
     clear: both;
@@ -103,8 +96,8 @@ footer{
 }
 
 img#profile{
-    height: 300px;
-    width: 275px;
+    height: 100%;
+    width: 85%;
     position: relative;
 }
 
@@ -135,9 +128,29 @@ blockquote{
     padding: 2px;
 }
 
+/*style for contact*/
+div#contact{
+    text-align: center; /*keep things in the middle*/
+    align-items: center;
+}
+#contact a{
+    text-decoration: none;
+    color: rgb(125, 180, 175);
+    float: center;
+}
+#contact a:hover{
+    color: rgb(60, 115, 110);
+    float: center;
+}
+img#snsimg{
+    height: 25px;
+    width: 25px;
+    vertical-align: middle;
+}
+
 @media screen and (max-width:600px){
     .columnL, .column, .columnR{
-        width: 100%;
+        width: 100%; /*arrange columns vertically*/
     }
     footer{
         position: relative;
