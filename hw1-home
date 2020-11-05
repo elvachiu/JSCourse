@@ -6,36 +6,55 @@
         <title>Home Page 0713462</title>
     </head>
     <body>
-        <div id="nav">
+        <div id="nav"> <!--navigator on the top, links to all the pages here-->
             <ul>
                 <li class="currentPage"><a href="hw1-home.html">Home</a></li>
                 <li class="dropdown"><a href="javascript:void(0)" dropbtn>Projects</a>
-                    <div class="dropdown-content">
-                        <a href="">homework 1</a>
-                        <a href="">homework 2</a>
+                    <div class="dropdown-content"> <!--dropdown content for homeworks-->
+                        <a href="#">homework 1</a>
+                        <a href="#">homework 2</a>
                         <a href="hw1-homework3.html">homework 3</a>
                     </div>
                 </li>
-                <li><a href="hw1-services.html">Services</a></li>
+                <li><a href="hw1-notes.html">Notes</a></li>
                 <li><a href="hw1-about.html">About</a></li>
                 <li><a href="hw1-contact.html">Contact</a></li>
             </ul>
         </div>
-        <header>
+        <header> <!--header: title for this page-->
             <h1>My Homepage</h1>
         </header>
-        <div class="row">
-            <div class="columnL">
-              <h2>Column</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
+        <div class="row"> <!--contents-->
+            <div class="columnL"> <!--the left column-->
+              <h2>Side Notes</h2><br>
+              <h3>* Song lyrics: Changes by lauv</h3><br>
+              <p><strong>chores</strong></p><br>
+              <p>Changes, they might drive you half insane but it's killing you to stay the same</p><br>
+              <p>but it's all gonna work out, it's all gonna work out someday</p><br>
+              <p>Moments, living with your eyes half open, you've been thinking 'bout these changes</p><br>
+              <p>but it's all gonna work out, it's all gonna work out someday</p><br>
+              <h3>* My Motto: </h3><br>
+              <p><em>Mind over matter</em></p><br>
             </div>
-            <div class="column">
-                <h2>Column</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
+            <div class="column"> <!--main idea-->
+                <h2>Welcome to my website! </h2><br>
+                <p>&emsp;I'm 邱靖詒, Elva, a student from NCTU, major in Information Management and Finance. I will put all my work for this Java Script Web Programming class here. </p><br>
+                <p>&emsp;Go to "Project" and "Notes", where you can see my homeworks and some notes about what I learn this semester. </p><br>
+                <p>&emsp;You can go to "About" to learn more about me.</p><br>
+                <p>&emsp;If you have any questions, feel free to contact me. Just go to "Contact" and you'll find the info. </p><br>
+                <p>&emsp;Thank you for visiting my website! Wishing you a great day! ♡</p>
             </div>
-            <div class="columnR">
-                <h2>Column</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet pretium urna. Vivamus venenatis velit nec neque ultricies, eget elementum magna tristique. Quisque vehicula, risus eget aliquam placerat, purus leo tincidunt eros, eget luctus quam orci in velit. Praesent scelerisque tortor sed accumsan convallis.</p>
+            <div class="columnR"> <!--the right column-->
+                <h2>Recommendations</h2>
+                <ul>
+                    <li><p><strong>Books: </strong>The Little Prince</p></li>
+                    <li><p><strong>Movies: </strong>Little women</p></li>
+                    <li><p><strong>TV Shows: </strong>Sherlock</p></li>
+                    <li><p><strong>Youtube Channels: </strong>Jess&Gabriel</p></li>
+                </ul>
+                <h2>Reminders</h2><br>
+                <p>In a world where you can be anything, </p>
+                <p><em>be kind. </em></p><br>
                 <blockquote>"Each day you must choose the pain of discipine or the pain of regret"</blockquote>
             </div>
         </div>
