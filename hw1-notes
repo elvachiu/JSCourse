@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="hw1.css">
-        <title>Contact 0713462</title>
+        <title>Notes 0713462</title>
     </head>
     <body>
         <div id="nav">
@@ -11,14 +11,19 @@
                 <li><a href="hw1-home.html">Home</a></li>
                 <li class="dropdown"><a href="javascript:void(0)" dropbtn>Projects</a>
                     <div class="dropdown-content">
-                        <a href="">homework 1</a>
-                        <a href="">homework 2</a>
+                        <a href="hw1-home.html" onclick="alertBox()">homework 1</a>
+                        <script> //show an alert box clicking on homework 1
+                            function alertBox(){
+                              alert("This website is homework 1 (now lead you to homepage)");
+                            }
+                        </script>
+                        <a href="hw1-homework2.html">homework 2</a>
                         <a href="hw1-homework3.html">homework 3</a>
                     </div>
                 </li>
-                <li><a href="hw1-notes.html">Notes</a></li>
+                <li class="currentPage"><a href="hw1-notes.html">Notes</a></li>
                 <li><a href="hw1-about.html">About</a></li>
-                <li class="currentPage"><a href="hw1-contact.html">Contact</a></li>
+                <li><a href="hw1-contact.html">Contact</a></li>
             </ul>
         </div>
         <header>
