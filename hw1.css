@@ -15,15 +15,12 @@ div#nav{
 }
 a{
     color: rgb(125, 180, 175);
-    float: center;
 }
 a:hover{
     color: rgb(60, 115, 110);
-    float: center;
 }
 #nav .currentPage a{
     color:	rgb(60, 115, 110);
-    float: center;
 }
 li{
     display: inline;
@@ -103,13 +100,23 @@ img#profile{
 
 /*put some quotes here*/
 blockquote{
-    float: center;
     width: 275px;
     font-style: italic;
     margin-top: 10px;
     padding: 10px;
     border-top: 1.5px solid rgb(130, 196, 190);
     border-bottom: 1.5px solid rgb(130, 196, 190);
+}
+
+/*style for homework 2*/
+#hw2{ /*set this nav in the middle and not full screen*/
+    width: 80vw;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+#hw2 p{
+    text-align: center;
+    margin: 5px;
 }
 
 /*style for homework 3*/
@@ -136,11 +143,9 @@ div#contact{
 #contact a{
     text-decoration: none;
     color: rgb(125, 180, 175);
-    float: center;
 }
 #contact a:hover{
     color: rgb(60, 115, 110);
-    float: center;
 }
 img#snsimg{
     height: 25px;
