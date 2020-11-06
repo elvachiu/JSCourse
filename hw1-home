@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="hw1.css">
-        <title>Home Page 0713462</title>
+        <title>Home 0713462</title>
     </head>
     <body>
         <div id="nav"> <!--navigator on the top, links to all the pages here-->
@@ -11,8 +11,13 @@
                 <li class="currentPage"><a href="hw1-home.html">Home</a></li>
                 <li class="dropdown"><a href="javascript:void(0)" dropbtn>Projects</a>
                     <div class="dropdown-content"> <!--dropdown content for homeworks-->
-                        <a href="#">homework 1</a>
-                        <a href="#">homework 2</a>
+                        <a href="hw1-home.html" onclick="alertBox()">homework 1</a>
+                        <script> //show an alert box clicking on homework 1
+                            function alertBox(){
+                              alert("This website is homework 1 (now lead you to homepage)");
+                            }
+                        </script>
+                        <a href="hw1-homework2.html">homework 2</a>
                         <a href="hw1-homework3.html">homework 3</a>
                     </div>
                 </li>
@@ -58,7 +63,7 @@
                 <blockquote>"Each day you must choose the pain of discipine or the pain of regret"</blockquote>
             </div>
         </div>
-        <footer>
+        <footer><!--footer for all pages-->
             <p id="copyright">&copy; 2020</p>
         </footer>
     </body>
