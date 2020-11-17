@@ -6,3 +6,7 @@ hw1-personal homepage
 hw2-navigator practice
 
 hw3-guess the number
+
+hw4-exercise
+
+hw5-squash (create balls)
