@@ -1,0 +1,67 @@
+@charset "utf-8";
+body{
+    color: rgb(38, 136, 202); 
+    font-family: Arial, Helvetica, sans-serif;
+}
+h1{
+    text-align: left;
+    padding: 5px;
+}
+#container{
+    background-color: rgb(130, 115, 105);
+    width: 26em;
+    height: 26em;
+}
+div#container .brick{
+    float: left;
+    background-color: rgb(185, 170, 160);
+    margin: 3px;
+    font-size: 3em;
+    text-align: center;
+    width: 2em;
+    height: 2em;
+}
+div#container .brick2{
+    background-color: rgb(250, 230, 220);
+    color: rgb(100, 100, 100);
+}
+div#container .brick4{
+    background-color: rgb(225, 210, 180);
+    color: rgb(100, 100, 100);
+}
+div#container .brick8{
+    background-color: rgb(245, 185, 130);
+    color: white;
+}
+div#container .brick16{
+    background-color: rgb(235, 145, 80);
+    color: white;
+}
+div#container .brick32{
+    background-color: rgb(235, 105, 90);
+    color: white;
+}
+div#container .brick64{
+    background-color: rgb(220, 90, 25);
+    color: white;
+}
+div#container .brick128{
+    background-color: rgb(250, 240, 115);
+    color: rgb(100, 100, 100);
+}
+div#container .brick256{
+    background-color: rgb(250, 170, 170);
+    color: rgb(100, 100, 100);
+}
+div#container .brick512{
+    background-color: rgb(240, 150, 150);
+    color: white;
+}
+div#container .brick1024{
+    background-color: rgb(255, 130, 130);
+    color: white;
+}
+
+div#container .brick:nth-of-type(4n+1){
+    clear: both;
+} /*let 4 bricks in a row*/
