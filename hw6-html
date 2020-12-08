@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="hw6.css">
+    <title>homework6 0713462</title>
+</head>
+<body>
+    <h1>1024</h1>
+    <div id="container">
+    </div>
+    <script type="text/javascript" src="hw6.js"></script>
+</body>
+</html>
