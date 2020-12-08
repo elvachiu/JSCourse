@@ -1,0 +1,151 @@
+/*class Brick{
+    constructor(node){
+        this.value = document.createTextNode("0");
+        this.node = document.createElement("div");
+        this.node.appendChild(this.value);
+        this.node.setAttribute("class", "brick");
+    }
+}*/
+const BLANK = "  "
+function Brick(){
+    this.ABCnode = document.createTextNode(BLANK);
+    this.node = document.createElement("div");
+    this.node.setAttribute("class", "brick");
+    this.node.appendChild(this.ABCnode);
+}
+Brick.prototype.setBrick = function(i){
+    this.ABCnode.nodeValue = i;
+    this.node.setAttribute("class", "brick brick"+i);
+}
+Brick.prototype.getBrick = function() {
+    return this.ABCnode.nodeValue;
+}
+
+function randomTile(){
+    let aTmp = [], i;
+    for(i=0; i<16; i++){
+        if(aBrick[i].getBrick() === BLANK){
+            aTmp.push(i);
+        };
+    }
+    if(aTmp.length == 0){ //game over
+        return false;
+    }else{
+        i = Math.floor(Math.random()*aTmp.length);
+        if(aBrick[aTmp[i]].getBrick() === BLANK){ //若是空格
+            aBrick[aTmp[i]].setBrick(Math.random()<0.8?2:4); //隨機產生2或4 比例4:1
+        }
+        return true;
+    }
+}
+
+let aBrick = [];
+let container = document.getElementById("container");
+for(let i=0; i<16; i++){
+    aBrick.push(new Brick());
+    container.appendChild(aBrick[i].node);
+}
+
+//start the game, set 2 tiles up
+randomTile();
+randomTile();
+
+function run(e){
+    let gameover = true, forceMove = false;
+    switch(e.code){
+        case "ArrowLeft":
+            for(let i=0; i<16; i++){
+                if(i%4 != 0){
+                    if(aBrick[i].getBrick() !== BLANK){
+                        for(let j=i; j>i-(i%4); j--){ 
+                            if(mergeTile(j-1, j)){ 
+                                gameover = false;
+                            }else{
+                                break;
+                            }
+                        }
+                    }else{
+                        forceMove = true;
+                    }
+                }
+            }
+            break;
+        case "ArrowRight":
+            for(let i=15; i>=0; i--){
+                if(i%4 != 3){
+                    if(aBrick[i].getBrick()!== BLANK){
+                        for(let j=i; j<i-(i%4)+3; j++){
+                            if(mergeTile(j+1, j)){
+                                gameover = false;
+                            }
+                            else{
+                                break;
+                            }
+                        }
+                    }else{
+                        forceMove = true; 
+                    }
+                }
+            }
+            break;
+        case "ArrowUp":
+            for(let i=4; i<16; i++){
+                if(aBrick[i].getBrick() !== BLANK){
+                    for(let j=i; j>4; j-=4){
+                        if(mergeTile(j-4, j)){ 
+                            gameover = false;
+                        }else{
+                            break;
+                        }
+                    }
+                }else{
+                    forceMove = true;
+                }
+            }
+            break;
+        case "ArrowDown":
+            for(let i=11; i>=0; i--){
+                if(aBrick[i].getBrick() !== BLANK){
+                    for(let j=i; j<12; j+=4){
+                        if(mergeTile(j+4, j)){
+                            gameover = false;
+                        }else{
+                            break;
+                        }
+                    }
+                }else{
+                    forceMove = true;
+                }
+            }
+            break;
+    }
+    if(!gameover){ 
+        for(let i=0; i<16; i++){
+            if(parseInt(aBrick[i].getBrick()) >= 2048){
+                window.removeEventListener("keydown", run, false);
+                console.log("Congradulations!");
+                break;
+            }
+        }
+        randomTile();
+    }else{
+        if(!forceMove){
+            console.log("Game Over");
+            window.removeEventListener("keydown", run, false);
+        }
+    }
+    function mergeTile(dest, src){
+        if(aBrick[dest].getBrick()===BLANK){ //終點是空的
+            aBrick[dest].setBrick(aBrick[src].getBrick()); //把數字從原本格子移到終點
+            aBrick[src].setBrick(BLANK); //原本格子數字清空
+            return true;
+        }else if(aBrick[dest].getBrick() === aBrick[src].getBrick()){ //和下面那格數字相同
+                aBrick[dest].setBrick(parseInt(aBrick[dest].getBrick()*2)); //合併到下面那格
+                aBrick[src].setBrick(BLANK); //原本那格要清空
+                return true;
+        }else{
+            return false;
+        }
+    }
+}
+window.addEventListener("keydown", run, false);
