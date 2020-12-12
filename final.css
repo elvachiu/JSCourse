@@ -1,0 +1,40 @@
+@charset "utf-8";
+*{
+    /*reset default style*/
+    margin: 0;
+    padding: 0;
+}
+body{
+    color: rgb(38, 136, 202); 
+    font-family: Arial, Helvetica, sans-serif;
+    /*background-color: beige;*/
+
+}
+h1{
+    text-align: left;
+    padding: 15px;
+}
+#container{
+    background-color: black;
+    width: 600px;
+    height: 450px;
+    position: relative; /*set as the father for the stair*/
+}
+.stair{
+    background-color: lightskyblue;
+    width: 50px;
+    height: 10px;
+    border-radius: 10%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.ball{
+    background-color: lemonchiffon;
+    border-radius: 100%;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
