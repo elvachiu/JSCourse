@@ -10,7 +10,7 @@ class Stair{
         const left = [0, 55, 110, 165, 220, 275, 330, 385, 440, 495, 550];
         this.coor = {
             x: left[rand(0, 10)],
-            y: 440, //start from the bottom
+            y: 440 //start from the bottom
         };
         this.nodeS = nodeS;
         this.nodeS.style.left = this.coor.x + "px";
@@ -19,13 +19,12 @@ class Stair{
             x: 0,
             y: rand(5, 10)/10
         };
-        this.nodeS.setAttribute("class", "stair"); /*set the style for the stair*/
+        this.nodeS.setAttribute("class", "stair"); //set the style for stairs
     }
-    ceiling(){ //set the ceiling, and stop when hit it
+    ceiling(){ //set the ceiling
         const hitTop = () => this.coor.y <= 0;
         if(hitTop()){
             return 1;
-            //this.coor.y = 440; this.node.style.top = this.coor.y + "px";
         }
     }
     move(){ 
@@ -48,19 +47,21 @@ class Ball{
         this.nodeB.style.top = this.coor.y + "px";
         this.offset = { //the ball goes left or right
             x: 0,
-            y: +5
+            y: 5
         }; //initially stay still
         this.nodeB.setAttribute("class", "ball"); //set the style for the ball
     }
-    bounce(){ /*set boundaries, and balls bounce when hit any sides*/
+    bounce(){ //set boundaries, and the ball bounces hitting them
         const hitTop = () => this.coor.y <= this.radius*2;
         const hitBottom = () => this.coor.y >= 600 - this.radius*2;
         const hitLeft = () => this.coor.x >= 600 - this.radius*2;
         const hitRight = () => this.coor.x <= 0;
         if(hitLeft() || hitRight() || hitBottom() || hitTop()){
             return 1;
-        }else return 0;
-    }
+        }else{
+            return 0;
+        }
+    }//bounce() & roll() undone
     roll(direc, speed){
         if(this.bounce()){ //first check whether hit the boundaries or not
             direc *= -1; //the opposite direction
@@ -87,71 +88,73 @@ var container = document.createElement("div");
 container.setAttribute("id", "container");
 document.body.appendChild(container);
 
-let stairs = rand(5, 10), aStair = [50], nodeS; //initially create 5~10 stairs
-let ball, nodeB;
-var num = 0;
+var stairs = rand(5, 10) //record how many stairs have been created (initially 5~10 stairs)
+let aStair = [50], nodeS; //the stairs
+let ball, nodeB; //the ball
 
+//stairs created at the start
 for(let i=0; i<stairs; i++){
     nodeS = document.createElement("div");
     nodeS.setAttribute("id", "stair"+i);
     aStair[i] = new Stair(nodeS);
     container.appendChild(nodeS);
 }
-num = stairs; //record how many stairs have been created
 
+//ball created
 nodeB = document.createElement("div");
 nodeB.setAttribute("id", "ball");
 ball = new Ball(nodeB);
 container.appendChild(nodeB);
 
-var roll; //later setInterval
+var roll; //later setInterval()
 function touch(){ //check if the ball touch any stairs
-    for(let i=0; i<num; i++){
+    for(let i=0; i<stairs; i++){
         if(ball.coor.y <= aStair[i].coor.y-20 && ball.coor.y >= aStair[i].coor.y-30 && ball.coor.x <= aStair[i].coor.x+50 && ball.coor.x >= aStair[i].coor.x){
-            let s = aStair[i].offset.y;
-            console.log("s", s);
-            setTimeout(clearInterval, 0, start); //immediately stop the ball
+            let s = aStair[i].offset.y; //the speed of the stair the ball touched
+            setTimeout(clearInterval, 0, start); //stop the ball when it touch the stair
             roll = setInterval(function rolling(){
-                ball.roll(5, s);
+                ball.roll(5, s); //let the ball goes up by the speed of the stair it is on
             }, 50);
             break;
         }
     }
 }
 
+//game starts, the ball falls until it touches any stairs or hits the ground
 var start = setInterval(function start(){
-    if(ball.coor.y <= 435){
-        touch();
+    if(ball.coor.y <= 430){ //before it hits the ground
+        touch(); //check if it touches any stairs
         ball.coor.y += ball.offset.y;
         ball.nodeB.style.top = ball.coor.y + "px";
     }
 }, 50)
 
-var timer = setInterval(function run(){
-    for(let i=0; i<num; i++){ //i<stairs
-        if(aStair[i] != null && document.getElementById("stair"+i) !== null && aStair[i].move() == 100){ 
-            var hitCeiling = document.getElementById("stair"+i);
+var timer = setInterval(function stairMoves(){
+    for(let i=0; i<stairs; i++){ 
+        if(document.getElementById("stair"+i) !== null && aStair[i].move() == 100){ 
+            let hitCeiling = document.getElementById("stair"+i);
             hitCeiling.remove(); //remove div
-        }else if(aStair[i] != null && document.getElementById("stair"+i) !== null){
+        }else{ // if(document.getElementById("stair"+i) !== null)
             aStair[i].move();
         }
     }
 }, 50);
 
-var timer2 = setInterval(function addStairs(){
+var timer2 = setInterval(function addStair(){
     nodeS = document.createElement("div");
-    nodeS.setAttribute("id", "stair"+num);
-    aStair[num] = new Stair(nodeS);
+    nodeS.setAttribute("id", "stair"+stairs);
+    aStair[stairs] = new Stair(nodeS);
     container.appendChild(nodeS);
-    num += 1;
+    stairs += 1;
 }, 1000);
 
-setTimeout(clearInterval, 10000, start); //run for 10 secs
-setTimeout(clearInterval, 10000, timer); //run for 10 secs
-setTimeout(clearInterval, 10000, timer2); //run for 10 secs
-setTimeout(clearInterval, 10000, roll); //run for 10 secs, seems to not be working...
+//games run for 20 secs (just for testing)
+setTimeout(clearInterval, 20000, start); 
+setTimeout(clearInterval, 20000, timer); 
+setTimeout(clearInterval, 20000, timer2); 
+setTimeout(clearInterval, 10000, roll); //seems to not be working...
 
-function control(e){ //use keys to control the ball
+function control(e){ //use keyboards to control the ball
     switch(e.code){ //goes left
         case "ArrowLeft":
             ball.roll(2, 0);
