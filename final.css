@@ -38,3 +38,9 @@ h1{
     top: 0;
     left: 0;
 }
+.bullet{
+    background-color: crimson;
+    width: 25px;
+    height: 5px;
+    position: absolute;
+}
