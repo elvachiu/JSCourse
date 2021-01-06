@@ -19,6 +19,24 @@ class Stair{
             x: 0,
             y: 0.8
         };
+        //different types of stairs
+        const types = ["normal", "flip", "scroll"];
+        //three types having probability of 7:2:1
+        const t = rand(1, 10);
+        if(t == 8 || t == 9){
+            this.type = types[1]; //type: flip
+        }else if(t == 10){
+            this.type = types[2]; //type: scroll
+        }else{
+            this.type = types[0]; //type: normal 
+        }//this.type = types[Math.random()<0.75?0:1];
+        //set the color for different types of stairs
+        const colors = ["lightskyblue", "darkseagreen", "lightslategray"];
+        if(this.type == "flip"){
+            this.nodeS.style.backgroundColor = colors[1];
+        }else if(this.type == "scroll"){
+            this.nodeS.style.backgroundColor = colors[2];
+        }//default in css is lightskyblue for normal stairs
         this.nodeS.setAttribute("class", "stair"); //set the style for stairs
     }
     ceiling(){ //set the ceiling
@@ -47,25 +65,24 @@ class Ball{
         this.nodeB.style.top = this.coor.y + "px";
         this.offset = { //initially fall
             x: 0,
-            y: 5
+            y: 3
         };
-        this.status = 3 //3:falls down, 7:goes up
+        this.status = 3 //3:falls down, 7:goes up, 5: hit by a bullet, 6: scroll
         this.nodeB.setAttribute("class", "ball"); //set the style for the ball
     }
-    bounce(){ //set boundaries, and the ball bounces hitting them
-        const hitTop = () => this.coor.y <= this.radius*2;
-        const hitBottom = () => this.coor.y >= 600 - this.radius*2;
-        const hitLeft = () => this.coor.x >= 600 - this.radius*2;
-        const hitRight = () => this.coor.x <= 0;
-        if(hitLeft() || hitRight() || hitBottom() || hitTop()){
+    leftWall(){ //bounce back hitting the left wall
+        const hitLeft = () => this.coor.x  >= 570;
+        if(hitLeft()){
+            console.log("hit the left wall");
             return 1;
-        }else{
-            return 0;
         }
-    }//bounce() & roll() undone
-    roll(direc){
-        if(this.bounce()){ //first check whether hit the boundaries or not
-            direc *= -1; //the opposite direction
+    }
+    roll(direc){ //undone
+        if(this.leftWall()){ //bounce back
+            console.log("roll.leftWall");
+            this.offset.x = 2;
+            this.coor.x += this.offset.x;
+            this.nodeB.style.left = this.coor.x + "px";
         }
         if(direc == 2){ //arrow left
             this.offset.x = -5;
@@ -82,7 +99,7 @@ class Ball{
 class Bullet{
     constructor(){
         this.coor = {
-            x: 575, //fire from the right wall
+            x: 600, //fire from the right wall
             y: rand(0, 445)
         }
         this.offset = {
@@ -113,6 +130,14 @@ class Bullet{
 var container = document.createElement("div");
 container.setAttribute("id", "container");
 document.body.appendChild(container);
+//battery - red box (where the bullets store)
+var battery = document.createElement("div");
+battery.setAttribute("id", "battery");
+document.body.appendChild(battery);
+//score board - beige box
+//var scoreBoard = document.createElement("div");
+//scoreBoard.setAttribute("id", "scoreBoard");
+//document.body.appendChild(scoreBoard);
 
 var stairs = 7 //record how many stairs have been created (initially 7)
 let aStair = [50], nodeS; //the stairs
@@ -140,30 +165,40 @@ nodeBullet.setAttribute("id", "bullet"+bullets);
 aBullet[bullets] = new Bullet(nodeBullet);
 container.appendChild(nodeBullet);
 
-var status, speed;
+//functions for the ball
+var status, speed, timer;
 function run(){ //let ball either falls or goes up
     if(ball.coor.y <= 430 && ball.status == 3){
         ball.coor.y += speed;
-    }else if(ball.coor.y >= 0 && ball.status ==7){
+    }else if(ball.coor.y >= 0 && ball.status == 7){
         ball.coor.y -= speed;
+    }else{ //drop to the ground
+        gameOver();
     }
     ball.nodeB.style.top = ball.coor.y + "px";
 };
-status = setInterval(function status(){ //whether the ball is on stairs or in air
+status = setInterval(function ballStatus(){ //whether the ball is on stairs or in air
     for(let i=0; i<stairs; i++){
         if(ball.coor.y <= aStair[i].coor.y-10 && ball.coor.y >= aStair[i].coor.y-20 && ball.coor.x <= aStair[i].coor.x+50 && ball.coor.x >= aStair[i].coor.x){
+            if(aStair[i].type == "flip"){
+                ball.status = 3; //the dark green stairs would let the ball goes through
+            }else if(aStair[i].type == "scroll"){
+                ball.roll(2);
+            }else{ //normal
+                ball.status = 7;
+            }
             speed = aStair[i].offset.y; //the speed of the stair the ball touched
-            ball.status = 7;
             break;
         }
         else if(ball.coor.y >= aStair[i].coor.y-10 || ball.coor.y <= aStair[i].coor.y-20 || ball.coor.x >= aStair[i].coor.x+50 || ball.coor.x <= aStair[i].coor.x){
-            speed = ball.offset.y;
             ball.status = 3;
+            speed = ball.offset.y;
         }
     }
     run();
-}, 20);
+}, 15); //or 15
 
+//functions for the stairs
 var moving = setInterval(function stairMoves(){
     for(let i=0; i<stairs; i++){ 
         if(document.getElementById("stair"+i) !== null && aStair[i].move() == 100){ 
@@ -182,6 +217,7 @@ var addStair = setInterval(function addStair(){
     stairs += 1;
 }, 1000);
 
+//functions for the bullets
 var fire = setInterval(function fireBullets(){
     for(let i=1; i<=bullets; i++){
         if(document.getElementById("bullet"+i) !== null && aBullet[i].shoot() == 200){ 
@@ -199,6 +235,35 @@ var bullets = setInterval(function generate(){
     container.appendChild(nodeBullet);
     bullets += 1;
 }, 1000);
+var shot = setInterval(function gotShot(){
+    for(let i=0; i<bullets; i++){
+        if(document.getElementById("bullet"+i) !== null){
+            if(ball.coor.y <= aBullet[i].coor.y+10 && ball.coor.y >= aBullet[i].coor.y-10 && ball.coor.x <= aBullet[i].coor.x+30 && ball.coor.x >= aBullet[i].coor.x){
+                ball.status = 5; //hit by a bullet
+                gameOver();
+            }
+        }
+    }
+}, 20);
+
+//other functions
+function keyC(){
+    nodeS = document.createElement("div");
+    nodeS.setAttribute("id", "stair"+stairs);
+    aStair[stairs] = new Stair(nodeS);
+    container.appendChild(nodeS);
+    stairs += 1;
+}
+
+function gameOver(){
+    setTimeout(clearInterval, 0, moving); 
+    setTimeout(clearInterval, 0, addStair);
+    setTimeout(clearInterval, 0, status);
+    setTimeout(clearInterval, 0, fire);
+    setTimeout(clearInterval, 0, bullets);
+    setTimeout(clearInterval, 0, shot);
+    console.log("game over");
+}
 
 //games run for 20 secs (just for testing)
 setTimeout(clearInterval, 20000, moving); 
@@ -206,7 +271,9 @@ setTimeout(clearInterval, 20000, addStair);
 setTimeout(clearInterval, 20000, status);
 setTimeout(clearInterval, 20000, fire);
 setTimeout(clearInterval, 20000, bullets);
+setTimeout(clearInterval, 20000, shot);
 
+var countC = 0; //can only use covers(key c) 5 times
 function control(e){ //use keyboards to control the ball
     switch(e.code){ //goes left
         case "ArrowLeft":
@@ -214,6 +281,16 @@ function control(e){ //use keyboards to control the ball
             break;
         case "ArrowRight": //goes right
             ball.roll(-2);
+            break;
+        case "ArrowUp": //shield
+            //undone
+            console.log("up");
+            break;
+        case "KeyC": //cover: add one stair
+            if(countC < 5){
+                keyC();
+                countC += 1;
+            }
             break;
     }
 }
