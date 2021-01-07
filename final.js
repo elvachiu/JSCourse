@@ -71,16 +71,14 @@ class Ball{
         this.nodeB.setAttribute("class", "ball"); //set the style for the ball
     }
     leftWall(){ //bounce back hitting the left wall
-        const hitLeft = () => this.coor.x  >= 570;
+        const hitLeft = () => this.coor.x  <= 0;
         if(hitLeft()){
-            console.log("hit the left wall");
             return 1;
         }
     }
-    roll(direc){ //undone
+    roll(direc){
         if(this.leftWall()){ //bounce back
-            console.log("roll.leftWall");
-            this.offset.x = 2;
+            this.offset.x = 7;
             this.coor.x += this.offset.x;
             this.nodeB.style.left = this.coor.x + "px";
         }
@@ -163,6 +161,23 @@ class Coin{
     }
 }
 
+class Sound{
+    constructor(src) {
+        this.sound = document.createElement("audio");
+        this.sound.src = src;
+        this.sound.setAttribute("preload", "auto");
+        this.sound.setAttribute("controls", "none");
+        this.sound.style.display = "none";
+        document.body.appendChild(this.sound);
+        this.play = function(){
+            this.sound.play();
+        };
+        this.stop = function(){
+            this.sound.pause();
+        };
+    }
+}
+
 //container - black box
 var container = document.createElement("div");
 container.setAttribute("id", "container");
@@ -177,13 +192,20 @@ let aStair = [50], nodeS; //the stairs
 let ball, nodeB; //the ball
 var bullets = 1; //record how many bullets have been generated
 let aBullet = [50], nodeBullet; //the bullets
-var coins = 1; //record how many coins have appeared
+var coins = 0; //record how many coins have appeared
 let aCoin = [50], nodeCoin; //the coins
 var score = 0; //to keep score
 var timer = setInterval(function scoring(){
     score += 2;
     console.log(score);
 }, 10);
+//sound effects
+var coinSound = new Sound("coin.mp3"); //get the coins
+var laserGun = new Sound("lasergun.mp3");
+var fireBall = new Sound("fireball.mp3"); //the ball be shot
+var swoosh = new Sound("swoosh.mp3"); //the flip stairs
+var scrollSound = new Sound("mushroom.mp3");
+var gameOverSound = new Sound("gameover.mp3");
 
 //stairs created at the start
 for(let i=0; i<stairs; i++){
@@ -221,8 +243,10 @@ status = setInterval(function ballStatus(){ //whether the ball is on stairs or i
     for(let i=0; i<stairs; i++){
         if(ball.coor.y <= aStair[i].coor.y-10 && ball.coor.y >= aStair[i].coor.y-20 && ball.coor.x <= aStair[i].coor.x+50 && ball.coor.x >= aStair[i].coor.x){
             if(aStair[i].type == "flip"){
+                swoosh.play();
                 ball.status = 3; //the dark green stairs would let the ball goes through
             }else if(aStair[i].type == "scroll"){
+                scrollSound.play();
                 ball.roll(2);
             }else{ //normal
                 ball.status = 7;
@@ -267,20 +291,26 @@ var fire = setInterval(function fireBullets(){
             aBullet[i].shoot();
         }
     }
-}, 100);
+}, 90);
 var generate = setInterval(function generateBullets(){
     nodeBullet = document.createElement("div");
     nodeBullet.setAttribute("id", "bullet"+bullets);
     aBullet[bullets] = new Bullet(nodeBullet);
     container.appendChild(nodeBullet);
+    laserGun.play();
     bullets += 1;
-}, 1000);
+}, 1500);
 var shot = setInterval(function gotShot(){
     for(let i=0; i<bullets; i++){
         if(document.getElementById("bullet"+i) !== null){
             if(ball.coor.y <= aBullet[i].coor.y+5 && ball.coor.y >= aBullet[i].coor.y-5 && ball.coor.x <= aBullet[i].coor.x+30 && ball.coor.x >= aBullet[i].coor.x){
                 ball.status = 5; //hit by a bullet
-                gameOver();
+                if(bullets != 1){
+                    fireBall.play();
+                }
+                setTimeout(function fireOver(){
+                    gameOver();
+                }, 30);
             }
         }
     }
@@ -305,7 +335,8 @@ var disappear = setInterval(function disappearCoins(){
 var getCoin = setInterval(function getCoins(){
     for(let i=0; i<coins; i++){
         if(document.getElementById("coin"+i) !== null){
-            if(ball.coor.y <= aCoin[i].coor.y+5 && ball.coor.y >= aCoin[i].coor.y-5 && ball.coor.x <= aCoin[i].coor.x+10 && ball.coor.x >= aCoin[i].coor.x){
+            if(ball.coor.y <= aCoin[i].coor.y+10 && ball.coor.y >= aCoin[i].coor.y-10 && ball.coor.x <= aCoin[i].coor.x+10 && ball.coor.x >= aCoin[i].coor.x-10){
+                coinSound.play();
                 score += 10;
                 console.log("+10 = ", score);
                 let getcoin = document.getElementById("coin"+i);
@@ -325,6 +356,7 @@ function keyC(){
 }
 
 function gameOver(){
+    gameOverSound.play();
     setTimeout(clearInterval, 0, moving); 
     setTimeout(clearInterval, 0, addStair);
     setTimeout(clearInterval, 0, status);
