@@ -43,7 +43,6 @@ h1{
     top: 66.5px;
     left: 650px;
 }
-/*
 #scoreBoard{
     background-color: beige;
     width: 300px;
@@ -52,7 +51,6 @@ h1{
     top: 66.5px;
     left: 650px;
 }
-*/
 .stair{
     background-color: lightskyblue;
     width: 50px;
@@ -74,5 +72,12 @@ h1{
     border-radius: 35%;
     width: 25px;
     height: 5px;
+    position: absolute;
+}
+.shield{
+    background-color: gold;
+    border-radius: 50%;
+    width: 15px;
+    height: 20px;
     position: absolute;
 }
