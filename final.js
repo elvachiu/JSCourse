@@ -29,7 +29,7 @@ class Stair{
             this.type = types[2]; //type: scroll
         }else{
             this.type = types[0]; //type: normal 
-        }//this.type = types[Math.random()<0.75?0:1];
+        }
         //set the color for different types of stairs
         const colors = ["lightskyblue", "darkseagreen", "lightslategray"];
         if(this.type == "flip"){
@@ -126,6 +126,37 @@ class Bullet{
     }
 }
 
+class Shield{
+    constructor(){
+        const left = [20, 75, 130, 185, 240, 295, 350, 405, 460, 515, 570];
+        this.coor = {
+            x: left[rand(0, 10)],
+            y: 440//rand(50, 400)
+        };
+        this.offset = { //the shield goes up
+            x: 0,
+            y: 1.6
+        };
+        this.nodeShield = nodeShield;
+        this.nodeShield.style.left = this.coor.x + "px";
+        this.nodeShield.style.top = this.coor.y + "px";
+        this.nodeShield.setAttribute("class", "shield"); //set the style for the bullet
+    }
+    ceiling(){ //set the ceiling
+        const hitTop = () => this.coor.y <= 0;
+        if(hitTop()){
+            return 1;
+        }
+    }
+    move(){ 
+        if(this.ceiling()){ //first check whether hit the ceiling or not
+            return 100;
+        }
+        this.coor.y -= this.offset.y; //goes up
+        this.nodeShield.style.top = this.coor.y + "px";
+    }
+}
+
 //container - black box
 var container = document.createElement("div");
 container.setAttribute("id", "container");
@@ -134,16 +165,19 @@ document.body.appendChild(container);
 var battery = document.createElement("div");
 battery.setAttribute("id", "battery");
 document.body.appendChild(battery);
-//score board - beige box
-//var scoreBoard = document.createElement("div");
-//scoreBoard.setAttribute("id", "scoreBoard");
-//document.body.appendChild(scoreBoard);
 
 var stairs = 7 //record how many stairs have been created (initially 7)
 let aStair = [50], nodeS; //the stairs
 let ball, nodeB; //the ball
 var bullets = 1; //record how many bullets have been generated
 let aBullet = [50], nodeBullet; //the bullets
+var shields = 1; //record how many shields have appeared
+let aShield = [50], nodeShield; //the shields
+var score = 0; //to keep score
+var timer = setInterval(function scoring(){
+    score += 2;
+    console.log(score);
+}, 10);
 
 //stairs created at the start
 for(let i=0; i<stairs; i++){
@@ -193,10 +227,10 @@ status = setInterval(function ballStatus(){ //whether the ball is on stairs or i
         else if(ball.coor.y >= aStair[i].coor.y-10 || ball.coor.y <= aStair[i].coor.y-20 || ball.coor.x >= aStair[i].coor.x+50 || ball.coor.x <= aStair[i].coor.x){
             ball.status = 3;
             speed = ball.offset.y;
-        }
+        }//not on stairs then the ball falls
     }
     run();
-}, 15); //or 15
+}, 20);
 
 //functions for the stairs
 var moving = setInterval(function stairMoves(){
@@ -228,7 +262,7 @@ var fire = setInterval(function fireBullets(){
         }
     }
 }, 100);
-var bullets = setInterval(function generate(){
+var generate = setInterval(function generateBullets(){
     nodeBullet = document.createElement("div");
     nodeBullet.setAttribute("id", "bullet"+bullets);
     aBullet[bullets] = new Bullet(nodeBullet);
@@ -238,13 +272,30 @@ var bullets = setInterval(function generate(){
 var shot = setInterval(function gotShot(){
     for(let i=0; i<bullets; i++){
         if(document.getElementById("bullet"+i) !== null){
-            if(ball.coor.y <= aBullet[i].coor.y+10 && ball.coor.y >= aBullet[i].coor.y-10 && ball.coor.x <= aBullet[i].coor.x+30 && ball.coor.x >= aBullet[i].coor.x){
+            if(ball.coor.y <= aBullet[i].coor.y+5 && ball.coor.y >= aBullet[i].coor.y-5 && ball.coor.x <= aBullet[i].coor.x+30 && ball.coor.x >= aBullet[i].coor.x){
                 ball.status = 5; //hit by a bullet
                 gameOver();
             }
         }
     }
-}, 20);
+}, 15);
+
+//functions for shields
+var appear = setInterval(function appearShields(){
+    nodeShield = document.createElement("div");
+    nodeShield.setAttribute("id", "shield"+shields);
+    aShield[shields] = new Shield(nodeShield);
+    container.appendChild(nodeShield);
+    shields += 1;
+}, 5000);
+var disappear = setInterval(function disappearShields(){
+    for(let i=0; i<shields; i++){ 
+        if(document.getElementById("shield"+i) !== null && aShield[i].move() == 100){ 
+            let hitCeiling = document.getElementById("shield"+i);
+            hitCeiling.remove(); //remove div
+        }
+    }
+}, 50);
 
 //other functions
 function keyC(){
@@ -260,9 +311,13 @@ function gameOver(){
     setTimeout(clearInterval, 0, addStair);
     setTimeout(clearInterval, 0, status);
     setTimeout(clearInterval, 0, fire);
-    setTimeout(clearInterval, 0, bullets);
+    setTimeout(clearInterval, 0, generate);
     setTimeout(clearInterval, 0, shot);
+    setTimeout(clearInterval, 0, timer);
+    setTimeout(clearInterval, 0, appear);
+    setTimeout(clearInterval, 0, disappear);
     console.log("game over");
+    console.log("score: ", score);
 }
 
 //games run for 20 secs (just for testing)
@@ -270,8 +325,11 @@ setTimeout(clearInterval, 20000, moving);
 setTimeout(clearInterval, 20000, addStair);
 setTimeout(clearInterval, 20000, status);
 setTimeout(clearInterval, 20000, fire);
-setTimeout(clearInterval, 20000, bullets);
+setTimeout(clearInterval, 20000, generate);
 setTimeout(clearInterval, 20000, shot);
+setTimeout(clearInterval, 20000, timer);
+setTimeout(clearInterval, 20000, appear);
+setTimeout(clearInterval, 20000, disappear);
 
 var countC = 0; //can only use covers(key c) 5 times
 function control(e){ //use keyboards to control the ball
@@ -290,6 +348,7 @@ function control(e){ //use keyboards to control the ball
             if(countC < 5){
                 keyC();
                 countC += 1;
+                score -= 100;
             }
             break;
     }
