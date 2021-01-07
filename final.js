@@ -126,21 +126,27 @@ class Bullet{
     }
 }
 
-class Shield{
+class Coin{
     constructor(){
         const left = [20, 75, 130, 185, 240, 295, 350, 405, 460, 515, 570];
         this.coor = {
             x: left[rand(0, 10)],
             y: 440//rand(50, 400)
         };
-        this.offset = { //the shield goes up
+        this.offset = { //the coin goes up
             x: 0,
             y: 1.6
         };
-        this.nodeShield = nodeShield;
-        this.nodeShield.style.left = this.coor.x + "px";
-        this.nodeShield.style.top = this.coor.y + "px";
-        this.nodeShield.setAttribute("class", "shield"); //set the style for the bullet
+        this.nodeCoin = nodeCoin;
+        this.nodeCoin.style.left = this.coor.x + "px";
+        this.nodeCoin.style.top = this.coor.y + "px";
+
+        var newP = document.createElement("p");
+        var text = document.createTextNode("10");
+        newP.appendChild(text);
+        this.nodeCoin.insertBefore(newP, this.nodeCoin.childNodes[0]);
+
+        this.nodeCoin.setAttribute("class", "coin"); //set the style for the bullet
     }
     ceiling(){ //set the ceiling
         const hitTop = () => this.coor.y <= 0;
@@ -153,7 +159,7 @@ class Shield{
             return 100;
         }
         this.coor.y -= this.offset.y; //goes up
-        this.nodeShield.style.top = this.coor.y + "px";
+        this.nodeCoin.style.top = this.coor.y + "px";
     }
 }
 
@@ -171,8 +177,8 @@ let aStair = [50], nodeS; //the stairs
 let ball, nodeB; //the ball
 var bullets = 1; //record how many bullets have been generated
 let aBullet = [50], nodeBullet; //the bullets
-var shields = 1; //record how many shields have appeared
-let aShield = [50], nodeShield; //the shields
+var coins = 1; //record how many coins have appeared
+let aCoin = [50], nodeCoin; //the coins
 var score = 0; //to keep score
 var timer = setInterval(function scoring(){
     score += 2;
@@ -280,22 +286,34 @@ var shot = setInterval(function gotShot(){
     }
 }, 15);
 
-//functions for shields
-var appear = setInterval(function appearShields(){
-    nodeShield = document.createElement("div");
-    nodeShield.setAttribute("id", "shield"+shields);
-    aShield[shields] = new Shield(nodeShield);
-    container.appendChild(nodeShield);
-    shields += 1;
+//functions for coins
+var appear = setInterval(function appearCoins(){
+    nodeCoin = document.createElement("div");
+    nodeCoin.setAttribute("id", "coin"+coins);
+    aCoin[coins] = new Coin(nodeCoin);
+    container.appendChild(nodeCoin);
+    coins += 1;
 }, 5000);
-var disappear = setInterval(function disappearShields(){
-    for(let i=0; i<shields; i++){ 
-        if(document.getElementById("shield"+i) !== null && aShield[i].move() == 100){ 
-            let hitCeiling = document.getElementById("shield"+i);
+var disappear = setInterval(function disappearCoins(){
+    for(let i=0; i<coins; i++){ 
+        if(document.getElementById("coin"+i) !== null && aCoin[i].move() == 100){ 
+            let hitCeiling = document.getElementById("coin"+i);
             hitCeiling.remove(); //remove div
         }
     }
 }, 50);
+var getCoin = setInterval(function getCoins(){
+    for(let i=0; i<coins; i++){
+        if(document.getElementById("coin"+i) !== null){
+            if(ball.coor.y <= aCoin[i].coor.y+5 && ball.coor.y >= aCoin[i].coor.y-5 && ball.coor.x <= aCoin[i].coor.x+10 && ball.coor.x >= aCoin[i].coor.x){
+                score += 10;
+                console.log("+10 = ", score);
+                let getcoin = document.getElementById("coin"+i);
+                getcoin.remove(); //remove div
+            }
+        }
+    }
+}, 15);
 
 //other functions
 function keyC(){
@@ -316,6 +334,7 @@ function gameOver(){
     setTimeout(clearInterval, 0, timer);
     setTimeout(clearInterval, 0, appear);
     setTimeout(clearInterval, 0, disappear);
+    setTimeout(clearInterval, 0, getCoin);
     console.log("game over");
     console.log("score: ", score);
 }
@@ -330,6 +349,7 @@ setTimeout(clearInterval, 20000, shot);
 setTimeout(clearInterval, 20000, timer);
 setTimeout(clearInterval, 20000, appear);
 setTimeout(clearInterval, 20000, disappear);
+setTimeout(clearInterval, 20000, getCoin);
 
 var countC = 0; //can only use covers(key c) 5 times
 function control(e){ //use keyboards to control the ball
