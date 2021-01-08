@@ -13,6 +13,9 @@ h1{
     text-align: left;
     padding: 15px;
 }
+h2{
+    text-align: center;
+}
 p{
     text-align: center;
     color: goldenrod;
@@ -50,7 +53,7 @@ p{
 }
 #startButton{
     background-color: pink;
-    border-radius: 10%;
+    border-radius: 10px;
     border: 2px solid rosybrown;
     width: 90px;
     height: 30px;
@@ -60,9 +63,9 @@ p{
 }
 #replayButton{
     background-color: pink;
-    border-radius: 10%;
+    border-radius: 10px;
     border: 2px solid rosybrown;
-    width: 90px;
+    width: 95px;
     height: 30px;
     position: fixed;
     top: 550px;
@@ -78,11 +81,12 @@ p{
 }
 #scoreBoard{
     background-color: beige;
-    width: 300px;
-    height:450px;
+    border-radius: 10px;
+    width: 150px;
+    height: 30px;
     position: absolute;
-    top: 66.5px;
-    left: 650px;
+    top: 550px;
+    left: 475px;
 }
 .stair{
     background-color: lightskyblue;
