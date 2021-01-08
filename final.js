@@ -21,15 +21,15 @@ class Stair{
         };
         //different types of stairs
         const types = ["normal", "flip", "scroll"];
-        //three types having probability of 7:2:1
+        //three types having probability of 6:2:2
         const t = rand(1, 10);
-        if(t == 8 || t == 9){
+        if(t == 7 || t == 8){
             this.type = types[1]; //type: flip
             var newP = document.createElement("p");
             var text = document.createTextNode("vVVVv");
             newP.appendChild(text);
             this.nodeS.insertBefore(newP, this.nodeS.childNodes[0]);
-        }else if(t == 10){
+        }else if(t == 9 || t == 10){
             this.type = types[2]; //type: scroll
             var newP = document.createElement("p");
             var text = document.createTextNode("OOOO");
@@ -220,18 +220,36 @@ var score = 0; //to keep score
 
 //sound effects
 var coinSound = new Sound("coin.mp3"); //get the coins
-var laserGun = new Sound("lasergun.mp3");
-var fireBall = new Sound("fireball.mp3"); //the ball be shot
+var laserGun = new Sound("lasergun.mp3"); //bullets
+var fireBall = new Sound("fireball.mp3"); //the ball got shot
 var swoosh = new Sound("swoosh.mp3"); //the flip stairs
-var scrollSound = new Sound("mushroom.mp3");
-var gameOverSound = new Sound("gameover.mp3");
+var scrollSound = new Sound("mushroom.mp3"); //the scroll stairs
+var gameOverSound = new Sound("gameover.mp3"); //game over
 
 //stairs created at the start
-for(let i=0; i<stairs; i++){
+stairs = 0;
+nodeS = document.createElement("div");
+nodeS.setAttribute("id", "stair"+stairs);
+aStair[stairs] = new Stair(nodeS);
+container.appendChild(nodeS);
+stairs = 1; //first stair created
+while(stairs < 7){ //create 7 stairs at different positions
+    let flag = 0;
     nodeS = document.createElement("div");
-    nodeS.setAttribute("id", "stair"+i);
-    aStair[i] = new Stair(nodeS);
-    container.appendChild(nodeS);
+    nodeS.setAttribute("id", "stair"+stairs);
+    aStair[stairs] = new Stair(nodeS);
+    for(let j=0; j<stairs; j++){
+        if(aStair[j].coor.x == aStair[stairs].coor.x){
+            flag = 1;
+            break;
+        }
+    }
+    if(flag){
+        aStair.splice(stairs, 1);
+    }else{
+        container.appendChild(nodeS);
+        stairs++;
+    }
 }
 
 //ball created
@@ -291,7 +309,7 @@ document.getElementById("startButton").onclick = function gameStart(){
         run();
     }, 20);
 
-    //functions for the stairs
+    //functions for stairs
     var moving = setInterval(function stairMoves(){
         for(let i=0; i<stairs; i++){ 
             if(document.getElementById("stair"+i) !== null && aStair[i].move() == 100){ 
@@ -310,7 +328,7 @@ document.getElementById("startButton").onclick = function gameStart(){
         stairs += 1;
     }, 1000);
 
-    //functions for the bullets
+    //functions for bullets
     var fire = setInterval(function fireBullets(){
         for(let i=1; i<=bullets; i++){
             if(document.getElementById("bullet"+i) !== null && aBullet[i].shoot() == 200){ 
@@ -332,7 +350,7 @@ document.getElementById("startButton").onclick = function gameStart(){
     var shot = setInterval(function gotShot(){
         for(let i=0; i<bullets; i++){
             if(document.getElementById("bullet"+i) !== null){
-                if(ball.coor.y <= aBullet[i].coor.y+5 && ball.coor.y >= aBullet[i].coor.y-5 && ball.coor.x <= aBullet[i].coor.x+30 && ball.coor.x >= aBullet[i].coor.x){
+                if(ball.coor.y <= aBullet[i].coor.y+10 && ball.coor.y >= aBullet[i].coor.y-10 && ball.coor.x <= aBullet[i].coor.x+30 && ball.coor.x >= aBullet[i].coor.x){
                     ball.status = 5; //hit by a bullet
                     fireBall.play();
                     setTimeout(function fireOver(){
@@ -341,7 +359,7 @@ document.getElementById("startButton").onclick = function gameStart(){
                 }
             }
         }
-    }, 15);
+    }, 10);
 
     //functions for coins
     var appear = setInterval(function appearCoins(){
