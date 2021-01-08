@@ -25,8 +25,16 @@ class Stair{
         const t = rand(1, 10);
         if(t == 8 || t == 9){
             this.type = types[1]; //type: flip
+            var newP = document.createElement("p");
+            var text = document.createTextNode("vVVVv");
+            newP.appendChild(text);
+            this.nodeS.insertBefore(newP, this.nodeS.childNodes[0]);
         }else if(t == 10){
             this.type = types[2]; //type: scroll
+            var newP = document.createElement("p");
+            var text = document.createTextNode("OOOO");
+            newP.appendChild(text);
+            this.nodeS.insertBefore(newP, this.nodeS.childNodes[0]);
         }else{
             this.type = types[0]; //type: normal 
         }
@@ -168,6 +176,7 @@ class Sound{
         this.sound.setAttribute("preload", "auto");
         this.sound.setAttribute("controls", "none");
         this.sound.style.display = "none";
+        this.sound.muted = true;
         document.body.appendChild(this.sound);
         this.play = function(){
             this.sound.play();
@@ -186,6 +195,18 @@ document.body.appendChild(container);
 var battery = document.createElement("div");
 battery.setAttribute("id", "battery");
 document.body.appendChild(battery);
+//lava - gold box (lava)
+var lava = document.createElement("div");
+lava.setAttribute("id", "lava");
+document.body.appendChild(lava);
+//start button
+var startGame = document.createElement("button");
+startGame.setAttribute("id", "startButton");
+var pBtn = document.createElement("p");
+var textBtn = document.createTextNode("Game Starts");
+pBtn.appendChild(textBtn);
+this.startGame.insertBefore(pBtn, this.startGame.childNodes[0]);
+document.body.appendChild(startGame);
 
 var stairs = 7 //record how many stairs have been created (initially 7)
 let aStair = [50], nodeS; //the stairs
