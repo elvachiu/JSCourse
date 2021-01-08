@@ -58,6 +58,16 @@ p{
     top: 550px;
     left: 10px;
 }
+#replayButton{
+    background-color: pink;
+    border-radius: 10%;
+    border: 2px solid rosybrown;
+    width: 90px;
+    height: 30px;
+    position: fixed;
+    top: 550px;
+    left: 120px;
+}
 #rules{
     background-color: beige;
     width: 300px;
