@@ -16,6 +16,7 @@ h1{
 p{
     text-align: center;
     color: goldenrod;
+    text-decoration: double;
 }
 /*
 .columnL, .columnR{ /*for two sides
@@ -38,6 +39,24 @@ p{
     position: fixed;
     top: 66.5px;
     left: 600px;
+}
+#lava{ /*the bottom part*/
+    background-color: gold;
+    width: 625px;
+    height: 25px;
+    position: fixed;
+    top: 505px;
+    left: 0px;
+}
+#startButton{
+    background-color: pink;
+    border-radius: 10%;
+    border: 2px solid rosybrown;
+    width: 90px;
+    height: 30px;
+    position: fixed;
+    top: 550px;
+    left: 10px;
 }
 #rules{
     background-color: beige;
