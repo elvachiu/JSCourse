@@ -216,6 +216,10 @@ var rtextBtn = document.createTextNode("Replay Game");
 rpBtn.appendChild(rtextBtn);
 this.replayGame.insertBefore(rpBtn, this.replayGame.childNodes[0]);
 document.body.appendChild(replayGame);
+//score board
+var scoreBoard = document.createElement("div");
+scoreBoard.setAttribute("id", "scoreBoard");
+document.body.appendChild(scoreBoard);
 
 var stairs = 0 //record how many stairs have been created
 var aStair = [50], nodeS; //the stairs
@@ -298,6 +302,8 @@ function reset(){ //work once
             removeCoins.remove(); //remove div
         }
     }
+    let removeScore = document.getElementById("scoreBoard");
+    removeScore.remove();
 }
 
 //start the game
@@ -309,12 +315,18 @@ function gameStart(){
         sounds[i].muted = false;
     }
 
-    //keep score
+    //score board
     var score = 0; //to keep score
+    var showScore = document.createElement("h2");
+    var scoreText = document.createTextNode("Score: 0");
+    showScore.appendChild(scoreText);
     var timer = setInterval(function scoring(){
         score += 2;
+        scoreText = document.createTextNode("Score: " + score);
+        showScore.replaceChild(scoreText, showScore.childNodes[0]);
+        this.scoreBoard.insertBefore(showScore, this.scoreBoard.childNodes[0]);
     }, 10);
-
+    
     //functions for the ball
     var status, speed, timer;
     function run(){ //let ball either falls or goes up
@@ -504,6 +516,7 @@ function gameStart(){
 document.getElementById("startButton").onclick = function startBtn(){
     gameStart();
 }
+//work once
 document.getElementById("replayButton").onclick = function replayBtn(){
     reset();
     initialize();
