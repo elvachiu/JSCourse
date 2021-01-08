@@ -65,7 +65,7 @@ class Stair{
 class Ball{
     constructor(){
         this.coor = { //initial position
-            x: 250,
+            x: 295,
             y: 0
         };
         this.nodeB = nodeB;
@@ -175,6 +175,7 @@ class Sound{
         this.sound.src = src;
         this.sound.setAttribute("preload", "auto");
         this.sound.setAttribute("controls", "none");
+        this.sound.setAttribute("name", "sounds");
         this.sound.style.display = "none";
         this.sound.muted = true;
         document.body.appendChild(this.sound);
@@ -216,10 +217,7 @@ let aBullet = [50], nodeBullet; //the bullets
 var coins = 0; //record how many coins have appeared
 let aCoin = [50], nodeCoin; //the coins
 var score = 0; //to keep score
-var timer = setInterval(function scoring(){
-    score += 2;
-    console.log(score);
-}, 10);
+
 //sound effects
 var coinSound = new Sound("coin.mp3"); //get the coins
 var laserGun = new Sound("lasergun.mp3");
@@ -242,188 +240,197 @@ nodeB.setAttribute("id", "ball");
 ball = new Ball(nodeB);
 container.appendChild(nodeB);
 
-//bullets created
-nodeBullet = document.createElement("div");
-nodeBullet.setAttribute("id", "bullet"+bullets);
-aBullet[bullets] = new Bullet(nodeBullet);
-container.appendChild(nodeBullet);
+//start the game
+//Get the button, and when the user clicks on it, execute gameStart()
+document.getElementById("startButton").onclick = function gameStart(){
+    console.log("game starts");
+    let sounds = document.getElementsByName("sounds");
+    console.log(sounds);
+    for(let i=0; i<6; i++){
+        sounds[i].muted = false;
+    }
 
-//functions for the ball
-var status, speed, timer;
-function run(){ //let ball either falls or goes up
-    if(ball.coor.y <= 430 && ball.status == 3){
-        ball.coor.y += speed;
-    }else if(ball.coor.y >= 0 && ball.status == 7){
-        ball.coor.y -= speed;
-    }else{ //drop to the ground
-        gameOver();
-    }
-    ball.nodeB.style.top = ball.coor.y + "px";
-};
-status = setInterval(function ballStatus(){ //whether the ball is on stairs or in air
-    for(let i=0; i<stairs; i++){
-        if(ball.coor.y <= aStair[i].coor.y-10 && ball.coor.y >= aStair[i].coor.y-20 && ball.coor.x <= aStair[i].coor.x+50 && ball.coor.x >= aStair[i].coor.x){
-            if(aStair[i].type == "flip"){
-                swoosh.play();
-                ball.status = 3; //the dark green stairs would let the ball goes through
-            }else if(aStair[i].type == "scroll"){
-                scrollSound.play();
-                ball.roll(2);
-            }else{ //normal
-                ball.status = 7;
-            }
-            speed = aStair[i].offset.y; //the speed of the stair the ball touched
-            break;
-        }
-        else if(ball.coor.y >= aStair[i].coor.y-10 || ball.coor.y <= aStair[i].coor.y-20 || ball.coor.x >= aStair[i].coor.x+50 || ball.coor.x <= aStair[i].coor.x){
-            ball.status = 3;
-            speed = ball.offset.y;
-        }//not on stairs then the ball falls
-    }
-    run();
-}, 20);
+    //keep score
+    var timer = setInterval(function scoring(){
+        score += 2;
+        console.log(score);
+    }, 10);
 
-//functions for the stairs
-var moving = setInterval(function stairMoves(){
-    for(let i=0; i<stairs; i++){ 
-        if(document.getElementById("stair"+i) !== null && aStair[i].move() == 100){ 
-            let hitCeiling = document.getElementById("stair"+i);
-            hitCeiling.remove(); //remove div
-        }else{ // if(document.getElementById("stair"+i) !== null)
-            aStair[i].move();
+    //functions for the ball
+    var status, speed, timer;
+    function run(){ //let ball either falls or goes up
+        if(ball.coor.y <= 430 && ball.status == 3){
+            ball.coor.y += speed;
+        }else if(ball.coor.y >= 0 && ball.status == 7){
+            ball.coor.y -= speed;
+        }else{ //drop to the ground
+            gameOver();
         }
-    }
-}, 50);
-var addStair = setInterval(function addStair(){
-    nodeS = document.createElement("div");
-    nodeS.setAttribute("id", "stair"+stairs);
-    aStair[stairs] = new Stair(nodeS);
-    container.appendChild(nodeS);
-    stairs += 1;
-}, 1000);
-
-//functions for the bullets
-var fire = setInterval(function fireBullets(){
-    for(let i=1; i<=bullets; i++){
-        if(document.getElementById("bullet"+i) !== null && aBullet[i].shoot() == 200){ 
-            let hitWall = document.getElementById("bullet"+i);
-            hitWall.remove(); //remove div
-        }else if(document.getElementById("bullet"+i) !== null && aBullet[i].shoot() !== 200){
-            aBullet[i].shoot();
-        }
-    }
-}, 90);
-var generate = setInterval(function generateBullets(){
-    nodeBullet = document.createElement("div");
-    nodeBullet.setAttribute("id", "bullet"+bullets);
-    aBullet[bullets] = new Bullet(nodeBullet);
-    container.appendChild(nodeBullet);
-    laserGun.play();
-    bullets += 1;
-}, 1500);
-var shot = setInterval(function gotShot(){
-    for(let i=0; i<bullets; i++){
-        if(document.getElementById("bullet"+i) !== null){
-            if(ball.coor.y <= aBullet[i].coor.y+5 && ball.coor.y >= aBullet[i].coor.y-5 && ball.coor.x <= aBullet[i].coor.x+30 && ball.coor.x >= aBullet[i].coor.x){
-                ball.status = 5; //hit by a bullet
-                if(bullets != 1){
-                    fireBall.play();
+        ball.nodeB.style.top = ball.coor.y + "px";
+    };
+    status = setInterval(function ballStatus(){ //whether the ball is on stairs or in air
+        for(let i=0; i<stairs; i++){
+            if(ball.coor.y <= aStair[i].coor.y-10 && ball.coor.y >= aStair[i].coor.y-20 && ball.coor.x <= aStair[i].coor.x+50 && ball.coor.x >= aStair[i].coor.x){
+                if(aStair[i].type == "flip"){
+                    swoosh.play();
+                    ball.status = 3; //the dark green stairs would let the ball goes through
+                }else if(aStair[i].type == "scroll"){
+                    scrollSound.play();
+                    ball.roll(2);
+                }else{ //normal
+                    ball.status = 7;
                 }
-                setTimeout(function fireOver(){
-                    gameOver();
-                }, 30);
+                speed = aStair[i].offset.y; //the speed of the stair the ball touched
+                break;
+            }
+            else if(ball.coor.y >= aStair[i].coor.y-10 || ball.coor.y <= aStair[i].coor.y-20 || ball.coor.x >= aStair[i].coor.x+50 || ball.coor.x <= aStair[i].coor.x){
+                ball.status = 3;
+                speed = ball.offset.y;
+            }//not on stairs then the ball falls
+        }
+        run();
+    }, 20);
+
+    //functions for the stairs
+    var moving = setInterval(function stairMoves(){
+        for(let i=0; i<stairs; i++){ 
+            if(document.getElementById("stair"+i) !== null && aStair[i].move() == 100){ 
+                let hitCeiling = document.getElementById("stair"+i);
+                hitCeiling.remove(); //remove div
+            }else{ // if(document.getElementById("stair"+i) !== null)
+                aStair[i].move();
             }
         }
-    }
-}, 15);
+    }, 50);
+    var addStair = setInterval(function addStair(){
+        nodeS = document.createElement("div");
+        nodeS.setAttribute("id", "stair"+stairs);
+        aStair[stairs] = new Stair(nodeS);
+        container.appendChild(nodeS);
+        stairs += 1;
+    }, 1000);
 
-//functions for coins
-var appear = setInterval(function appearCoins(){
-    nodeCoin = document.createElement("div");
-    nodeCoin.setAttribute("id", "coin"+coins);
-    aCoin[coins] = new Coin(nodeCoin);
-    container.appendChild(nodeCoin);
-    coins += 1;
-}, 5000);
-var disappear = setInterval(function disappearCoins(){
-    for(let i=0; i<coins; i++){ 
-        if(document.getElementById("coin"+i) !== null && aCoin[i].move() == 100){ 
-            let hitCeiling = document.getElementById("coin"+i);
-            hitCeiling.remove(); //remove div
-        }
-    }
-}, 50);
-var getCoin = setInterval(function getCoins(){
-    for(let i=0; i<coins; i++){
-        if(document.getElementById("coin"+i) !== null){
-            if(ball.coor.y <= aCoin[i].coor.y+10 && ball.coor.y >= aCoin[i].coor.y-10 && ball.coor.x <= aCoin[i].coor.x+10 && ball.coor.x >= aCoin[i].coor.x-10){
-                coinSound.play();
-                score += 10;
-                console.log("+10 = ", score);
-                let getcoin = document.getElementById("coin"+i);
-                getcoin.remove(); //remove div
+    //functions for the bullets
+    var fire = setInterval(function fireBullets(){
+        for(let i=1; i<=bullets; i++){
+            if(document.getElementById("bullet"+i) !== null && aBullet[i].shoot() == 200){ 
+                let hitWall = document.getElementById("bullet"+i);
+                hitWall.remove(); //remove div
+            }else if(document.getElementById("bullet"+i) !== null && aBullet[i].shoot() !== 200){
+                aBullet[i].shoot();
             }
         }
-    }
-}, 15);
-
-//other functions
-function keyC(){
-    nodeS = document.createElement("div");
-    nodeS.setAttribute("id", "stair"+stairs);
-    aStair[stairs] = new Stair(nodeS);
-    container.appendChild(nodeS);
-    stairs += 1;
-}
-
-function gameOver(){
-    gameOverSound.play();
-    setTimeout(clearInterval, 0, moving); 
-    setTimeout(clearInterval, 0, addStair);
-    setTimeout(clearInterval, 0, status);
-    setTimeout(clearInterval, 0, fire);
-    setTimeout(clearInterval, 0, generate);
-    setTimeout(clearInterval, 0, shot);
-    setTimeout(clearInterval, 0, timer);
-    setTimeout(clearInterval, 0, appear);
-    setTimeout(clearInterval, 0, disappear);
-    setTimeout(clearInterval, 0, getCoin);
-    console.log("game over");
-    console.log("score: ", score);
-}
-
-//games run for 20 secs (just for testing)
-setTimeout(clearInterval, 20000, moving); 
-setTimeout(clearInterval, 20000, addStair);
-setTimeout(clearInterval, 20000, status);
-setTimeout(clearInterval, 20000, fire);
-setTimeout(clearInterval, 20000, generate);
-setTimeout(clearInterval, 20000, shot);
-setTimeout(clearInterval, 20000, timer);
-setTimeout(clearInterval, 20000, appear);
-setTimeout(clearInterval, 20000, disappear);
-setTimeout(clearInterval, 20000, getCoin);
-
-var countC = 0; //can only use covers(key c) 5 times
-function control(e){ //use keyboards to control the ball
-    switch(e.code){ //goes left
-        case "ArrowLeft":
-            ball.roll(2);
-            break;
-        case "ArrowRight": //goes right
-            ball.roll(-2);
-            break;
-        case "ArrowUp": //shield
-            //undone
-            console.log("up");
-            break;
-        case "KeyC": //cover: add one stair
-            if(countC < 5){
-                keyC();
-                countC += 1;
-                score -= 100;
+    }, 90);
+    var generate = setInterval(function generateBullets(){
+        nodeBullet = document.createElement("div");
+        nodeBullet.setAttribute("id", "bullet"+bullets);
+        aBullet[bullets] = new Bullet(nodeBullet);
+        container.appendChild(nodeBullet);
+        laserGun.play();
+        bullets += 1;
+    }, 1500);
+    var shot = setInterval(function gotShot(){
+        for(let i=0; i<bullets; i++){
+            if(document.getElementById("bullet"+i) !== null){
+                if(ball.coor.y <= aBullet[i].coor.y+5 && ball.coor.y >= aBullet[i].coor.y-5 && ball.coor.x <= aBullet[i].coor.x+30 && ball.coor.x >= aBullet[i].coor.x){
+                    ball.status = 5; //hit by a bullet
+                    fireBall.play();
+                    setTimeout(function fireOver(){
+                        gameOver();
+                    }, 30);
+                }
             }
-            break;
+        }
+    }, 15);
+
+    //functions for coins
+    var appear = setInterval(function appearCoins(){
+        nodeCoin = document.createElement("div");
+        nodeCoin.setAttribute("id", "coin"+coins);
+        aCoin[coins] = new Coin(nodeCoin);
+        container.appendChild(nodeCoin);
+        coins += 1;
+    }, 5000);
+    var disappear = setInterval(function disappearCoins(){
+        for(let i=0; i<coins; i++){ 
+            if(document.getElementById("coin"+i) !== null && aCoin[i].move() == 100){ 
+                let hitCeiling = document.getElementById("coin"+i);
+                hitCeiling.remove(); //remove div
+            }
+        }
+    }, 50);
+    var getCoin = setInterval(function getCoins(){
+        for(let i=0; i<coins; i++){
+            if(document.getElementById("coin"+i) !== null){
+                if(ball.coor.y <= aCoin[i].coor.y+10 && ball.coor.y >= aCoin[i].coor.y-10 && ball.coor.x <= aCoin[i].coor.x+10 && ball.coor.x >= aCoin[i].coor.x-10){
+                    coinSound.play();
+                    score += 10;
+                    console.log("+10 = ", score);
+                    let getcoin = document.getElementById("coin"+i);
+                    getcoin.remove(); //remove div
+                }
+            }
+        }
+    }, 15);
+
+    //other functions
+    function gameOver(){
+        gameOverSound.play();
+        setTimeout(clearInterval, 0, moving); 
+        setTimeout(clearInterval, 0, addStair);
+        setTimeout(clearInterval, 0, status);
+        setTimeout(clearInterval, 0, fire);
+        setTimeout(clearInterval, 0, generate);
+        setTimeout(clearInterval, 0, shot);
+        setTimeout(clearInterval, 0, timer);
+        setTimeout(clearInterval, 0, appear);
+        setTimeout(clearInterval, 0, disappear);
+        setTimeout(clearInterval, 0, getCoin);
+        console.log("game over");
+        console.log("score: ", score);
     }
+
+    //games run for 20 secs (just for testing)
+    setTimeout(clearInterval, 20000, moving); 
+    setTimeout(clearInterval, 20000, addStair);
+    setTimeout(clearInterval, 20000, status);
+    setTimeout(clearInterval, 20000, fire);
+    setTimeout(clearInterval, 20000, generate);
+    setTimeout(clearInterval, 20000, shot);
+    setTimeout(clearInterval, 20000, timer);
+    setTimeout(clearInterval, 20000, appear);
+    setTimeout(clearInterval, 20000, disappear);
+    setTimeout(clearInterval, 20000, getCoin);
+
+    function keyC(){
+        nodeS = document.createElement("div");
+        nodeS.setAttribute("id", "stair"+stairs);
+        aStair[stairs] = new Stair(nodeS);
+        container.appendChild(nodeS);
+        stairs += 1;
+    }
+    
+    var countC = 0; //can only use covers(key c) 5 times
+    function control(e){ //use keyboards to control the ball
+        switch(e.code){ //goes left
+            case "ArrowLeft":
+                ball.roll(2);
+                break;
+            case "ArrowRight": //goes right
+                ball.roll(-2);
+                break;
+            case "ArrowUp": //shield
+                //undone
+                console.log("up");
+                break;
+            case "KeyC": //cover: add one stair
+                if(countC < 5){
+                    keyC();
+                    countC += 1;
+                    score -= 100;
+                }
+                break;
+        }
+    }
+    window.addEventListener("keydown", control, false);
 }
-window.addEventListener("keydown", control, false);
