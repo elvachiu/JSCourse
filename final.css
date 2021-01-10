@@ -7,28 +7,35 @@
 body{
     color: rgb(38, 136, 202); 
     font-family: Arial, Helvetica, sans-serif;
-    /*background-color: beige;*/
 }
 h1{
     text-align: left;
     padding: 15px;
 }
 h2{
+    padding-bottom: 5px;
     text-align: center;
+    text-decoration: underline;
+    vertical-align: middle;
 }
-p{
+h3{
+    text-align: center;
+    padding: 5px;
+    color: whitesmoke;
+}
+h4{
+    text-align: left;
+    padding: 5px;
+}
+ul{
+    line-height: 150%;
+    padding-left: 25px;
+}
+p{ /*for the coins and stairs' deco*/
     text-align: center;
     color: goldenrod;
     text-decoration: double;
 }
-/*
-.columnL, .columnR{ /*for two sides
-    float: left;
-    width: 50%;
-    padding: 10px;
-    position: relative;
-    font-size: smaller;
-}*/
 #container{
     background-color: black;
     width: 600px;
@@ -39,7 +46,7 @@ p{
     background-color: crimson;
     width: 25px;
     height: 450px;
-    position: fixed;
+    position: absolute;
     top: 66.5px;
     left: 600px;
 }
@@ -47,49 +54,50 @@ p{
     background-color: gold;
     width: 625px;
     height: 25px;
-    position: fixed;
+    position: absolute;
     top: 505px;
     left: 0px;
 }
 #startButton{
-    background-color: pink;
+    background-color: steelblue;
     border-radius: 10px;
-    border: 2px solid rosybrown;
-    width: 90px;
-    height: 30px;
-    position: fixed;
+    border: 2px solid lightblue;
+    width: 120px;
+    height: 32px;
+    position: absolute;
     top: 550px;
     left: 10px;
 }
 #replayButton{
-    background-color: pink;
+    background-color: palevioletred;
     border-radius: 10px;
     border: 2px solid rosybrown;
-    width: 95px;
-    height: 30px;
-    position: fixed;
+    width: 125px;
+    height: 32px;
+    position: absolute;
     top: 550px;
-    left: 120px;
+    left: 150px;
 }
 #rules{
-    background-color: beige;
-    width: 300px;
-    height:450px;
+    background-color:lemonchiffon; /*rgb(255, 245, 180)*/
+    width: 380px;
+    height: 450px;
     position: absolute;
     top: 66.5px;
-    left: 650px;
+    left: 700px;
+    padding: 15px;
 }
 #scoreBoard{
-    background-color: beige;
-    border-radius: 10px;
-    width: 150px;
+    background-color: slategray;
+    border-radius: 5px;
+    width: 170px;
     height: 30px;
     position: absolute;
     top: 550px;
-    left: 475px;
+    left: 455px;
 }
 .stair{
-    background-color: lightskyblue;
+    background-color: skyblue;
     width: 50px;
     height: 10px;
     border-radius: 10%;
