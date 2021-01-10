@@ -203,7 +203,7 @@ document.body.appendChild(lava);
 //start button
 var startGame = document.createElement("button");
 startGame.setAttribute("id", "startButton");
-var pBtn = document.createElement("p");
+var pBtn = document.createElement("h3");
 var textBtn = document.createTextNode("Game Starts");
 pBtn.appendChild(textBtn);
 this.startGame.insertBefore(pBtn, this.startGame.childNodes[0]);
@@ -211,7 +211,7 @@ document.body.appendChild(startGame);
 //replay button
 var replayGame = document.createElement("button");
 replayGame.setAttribute("id", "replayButton");
-var rpBtn = document.createElement("p");
+var rpBtn = document.createElement("h3");
 var rtextBtn = document.createTextNode("Replay Game");
 rpBtn.appendChild(rtextBtn);
 this.replayGame.insertBefore(rpBtn, this.replayGame.childNodes[0]);
@@ -317,7 +317,7 @@ function gameStart(){
 
     //score board
     var score = 0; //to keep score
-    var showScore = document.createElement("h2");
+    var showScore = document.createElement("h3");
     var scoreText = document.createTextNode("Score: 0");
     showScore.appendChild(scoreText);
     var timer = setInterval(function scoring(){
