@@ -21,7 +21,7 @@ class Stair{
         };
         //different types of stairs
         const types = ["normal", "flip", "scroll"];
-        //three types having probability of 6:2:2
+        //three types having probability of 7:2:1
         const t = rand(1, 10);
         if(t == 7 || t == 8){
             this.type = types[1]; //type: flip
@@ -29,7 +29,7 @@ class Stair{
             var text = document.createTextNode("vVVVv");
             newP.appendChild(text);
             this.nodeS.insertBefore(newP, this.nodeS.childNodes[0]);
-        }else if(t == 9 || t == 10){
+        }else if(t == 10){
             this.type = types[2]; //type: scroll
             var newP = document.createElement("p");
             var text = document.createTextNode("OOOO");
@@ -137,7 +137,7 @@ class Coin{
         const left = [20, 75, 130, 185, 240, 295, 350, 405, 460, 515, 570];
         this.coor = {
             x: left[rand(0, 10)],
-            y: 440//rand(50, 400)
+            y: 440
         };
         this.offset = { //the coin goes up
             x: 0,
@@ -146,13 +146,11 @@ class Coin{
         this.nodeCoin = nodeCoin;
         this.nodeCoin.style.left = this.coor.x + "px";
         this.nodeCoin.style.top = this.coor.y + "px";
-
         var newP = document.createElement("p");
         var text = document.createTextNode("10");
         newP.appendChild(text);
         this.nodeCoin.insertBefore(newP, this.nodeCoin.childNodes[0]);
-
-        this.nodeCoin.setAttribute("class", "coin"); //set the style for the bullet
+        this.nodeCoin.setAttribute("class", "coin"); //set the style for the coin
     }
     ceiling(){ //set the ceiling
         const hitTop = () => this.coor.y <= 0;
@@ -228,8 +226,6 @@ var bullets = 1; //record how many bullets have been generated
 var aBullet = [50], nodeBullet; //the bullets
 var coins = 0; //record how many coins have appeared
 var aCoin = [50], nodeCoin; //the coins
-var resetTimes = 1;
-//var score = 0; //to keep score
 
 //sound effects
 var coinSound = new Sound("coin.mp3"); //get the coins
@@ -391,7 +387,7 @@ function gameStart(){
                 aBullet[i].shoot();
             }
         }
-    }, 90);
+    }, 100);
     var generate = setInterval(function generateBullets(){
         nodeBullet = document.createElement("div");
         nodeBullet.setAttribute("id", "bullet"+bullets);
@@ -436,6 +432,11 @@ function gameStart(){
                 if(ball.coor.y <= aCoin[i].coor.y+10 && ball.coor.y >= aCoin[i].coor.y-10 && ball.coor.x <= aCoin[i].coor.x+10 && ball.coor.x >= aCoin[i].coor.x-10){
                     coinSound.play();
                     score += 10;
+                    setTimeout(function displayNone(){
+                        document.getElementById("bonus").style.display = "none";
+                    }, 500);
+                    document.getElementById("bonus").style.display = "inline";
+                    console.log(document.getElementById("bonus"));
                     console.log("+10 = ", score);
                     let getcoin = document.getElementById("coin"+i);
                     getcoin.remove(); //remove div
@@ -465,40 +466,53 @@ function gameStart(){
                 removeBall[i].style.display = "none";
             }
         }, 300);
+        window.removeEventListener("keydown", control, false);
     }
 
-    //games run for 20 secs (just for testing)
-    setTimeout(clearInterval, 20000, moving); 
-    setTimeout(clearInterval, 20000, addStair);
-    setTimeout(clearInterval, 20000, status);
-    setTimeout(clearInterval, 20000, fire);
-    setTimeout(clearInterval, 20000, generate);
-    setTimeout(clearInterval, 20000, shot);
-    setTimeout(clearInterval, 20000, timer);
-    setTimeout(clearInterval, 20000, appear);
-    setTimeout(clearInterval, 20000, disappear);
-    setTimeout(clearInterval, 20000, getCoin);
-
-    function keyC(){
-        nodeS = document.createElement("div");
-        nodeS.setAttribute("id", "stair"+stairs);
-        aStair[stairs] = new Stair(nodeS);
-        container.appendChild(nodeS);
-        stairs += 1;
+    function keyC(){ //generate one stair near the ball
+        let flag = 0; //whether near the ball or not
+        while(flag == 0){
+            nodeS = document.createElement("div");
+            nodeS.setAttribute("id", "stair"+stairs);
+            aStair[stairs] = new Stair(nodeS);
+            if(ball.coor.x-75 <= aStair[stairs].coor.x && aStair[stairs].coor.x <= ball.coor.x+75){ 
+                flag = 1;
+                container.appendChild(nodeS);
+                console.log("stair", stairs, ":", aStair[stairs].coor.x, "ball:", ball.coor.x)
+                stairs += 1;
+                break;
+            }
+        }
     }
     
     var countC = 0; //can only use covers(key c) 5 times
     function control(e){ //use keyboards to control the ball
         switch(e.code){ //goes left
             case "ArrowLeft":
+                console.log("left");
                 ball.roll(2);
                 break;
             case "ArrowRight": //goes right
+                console.log("right");
                 ball.roll(-2);
                 break;
-            case "ArrowUp": //shield
-                //undone
-                console.log("up");
+            case "ArrowUp": //jump
+                let lock = setInterval(function lockKey(){
+                    window.removeEventListener("keydown", control, false);
+                }, 10); //cannot jump more than once within one sec
+                let jump = setInterval(function jump(){
+                    if(ball.coor.y >= 0){
+                        ball.coor.y -= 5;
+                        ball.nodeB.style.top = ball.coor.y + "px";
+                    }
+                }, 15);
+                setTimeout(function unjump(){
+                    clearInterval(jump);
+                }, 200);
+                setTimeout(function unlock(){
+                    clearInterval(lock);
+                    window.addEventListener("keydown", control, false);
+                }, 1000); //lock the keys for one sec
                 break;
             case "KeyC": //cover: add one stair
                 if(countC < 5){
@@ -515,10 +529,12 @@ function gameStart(){
 //Get the button, and when the user clicks on it, execute gameStart()/replay()
 document.getElementById("startButton").onclick = function startBtn(){
     gameStart();
+    //document.getElementById("startButton").disabled = "true";
 }
 //work once
 document.getElementById("replayButton").onclick = function replayBtn(){
     reset();
     initialize();
     gameStart();
+    //document.getElementById("replayButton").disabled = "true";
 }
