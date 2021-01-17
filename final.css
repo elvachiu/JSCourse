@@ -96,6 +96,29 @@ p{ /*for the coins and stairs' deco*/
     top: 550px;
     left: 455px;
 }
+#bonus{
+    background-color: gold;
+    border-radius: 10px;
+    width: 35px;
+    height: 15px;
+    top: 532px;
+    left: 560px;
+    position: absolute;
+    border: none;
+    display: none;
+}
+#gameOver{
+    background-color: steelblue;
+    color: lavender;
+    opacity: 0.95;
+    width: 600px;
+    height: 100px;
+    top: 250px;
+    left: 0px;
+    position: absolute;
+    border: none;
+    display: none;
+}
 .stair{
     background-color: skyblue;
     width: 50px;
