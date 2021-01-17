@@ -79,7 +79,7 @@ p{ /*for the coins and stairs' deco*/
     left: 150px;
 }
 #rules{
-    background-color:lemonchiffon; /*rgb(255, 245, 180)*/
+    background-color:lemonchiffon;
     width: 380px;
     height: 450px;
     position: absolute;
@@ -88,24 +88,29 @@ p{ /*for the coins and stairs' deco*/
     padding: 15px;
 }
 #scoreBoard{
-    background-color: slategray;
-    border-radius: 5px;
     width: 170px;
     height: 30px;
     position: absolute;
-    top: 550px;
-    left: 455px;
+    top: 70px;
+    left: 450px;
 }
 #bonus{
-    background-color: gold;
+    color: gold;
     border-radius: 10px;
     width: 35px;
     height: 15px;
-    top: 532px;
-    left: 560px;
+    top: 90px;
+    left: 550px;
     position: absolute;
     border: none;
     display: none;
+}
+#power{
+    color: steelblue;
+    font-size: large;
+    top: 550px;
+    left: 400px;
+    position: absolute;
 }
 #gameOver{
     background-color: steelblue;
@@ -113,7 +118,7 @@ p{ /*for the coins and stairs' deco*/
     opacity: 0.95;
     width: 600px;
     height: 100px;
-    top: 250px;
+    top: 240px;
     left: 0px;
     position: absolute;
     border: none;
