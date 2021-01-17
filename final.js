@@ -221,6 +221,15 @@ document.body.appendChild(scoreBoard);
 var score = 0; //to keep score
 var showScore = document.createElement("h3");
 var scoreText = document.createTextNode("Score: 0");
+//special power
+var countC = 5; //can only use covers(key c) 5 times
+var power = document.createElement("div");
+power.setAttribute("id", "power");
+document.body.appendChild(power);
+var coverTimes = document.createElement("h4");
+var coverText = document.createTextNode("special power: 5 time(s)");
+coverTimes.appendChild(coverText);
+this.power.insertBefore(coverTimes, this.power.childNodes[0]);
 //ball created
 nodeB = document.createElement("div");
 nodeB.setAttribute("id", "ball");
@@ -249,6 +258,9 @@ function initialize(){
     ball.nodeB.style.left = ball.coor.x + "px";
     ball.nodeB.style.top = ball.coor.y + "px";
     score = 0;
+    countC = 5;
+    coverText = document.createTextNode("special power: 5 time(s)");
+    coverTimes.replaceChild(coverText, coverTimes.childNodes[0]);
     document.getElementById("gameOver").style.display = "none";
     for(let i=0; i<stairs; i++){ 
         if(document.getElementById("stair"+i) !== null){ 
@@ -303,7 +315,6 @@ function gameStart(){
             stairs++;
         }
     }
-
     //sounds
     let sounds = document.getElementsByName("sounds");
     for(let i=0; i<6; i++){
@@ -476,7 +487,6 @@ function gameStart(){
         }
     }
     
-    var countC = 0; //can only use covers(key c) 5 times
     function control(e){ //use keyboards to control the ball
         switch(e.code){ //goes left
             case "ArrowLeft":
@@ -504,10 +514,12 @@ function gameStart(){
                 }, 1000); //lock the keys for one sec
                 break;
             case "KeyC": //cover: add one stair
-                if(countC < 5){
+                if(countC > 0){
                     keyC();
-                    countC += 1;
-                    score -= 100;
+                    countC -= 1;
+                    coverText = document.createTextNode("special power: " + countC + " time(s)");
+                    coverTimes.replaceChild(coverText, coverTimes.childNodes[0]);
+                    this.power.insertBefore(coverTimes, this.power.childNodes[0]);
                 }
                 break;
         }
