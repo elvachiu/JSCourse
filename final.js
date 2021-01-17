@@ -249,6 +249,7 @@ function initialize(){
     ball.nodeB.style.left = ball.coor.x + "px";
     ball.nodeB.style.top = ball.coor.y + "px";
     score = 0;
+    document.getElementById("gameOver").style.display = "none";
     for(let i=0; i<stairs; i++){ 
         if(document.getElementById("stair"+i) !== null){ 
             let removeStairs = document.getElementById("stair"+i);
@@ -444,6 +445,7 @@ function gameStart(){
     //other functions
     function gameOver(){
         gameOverSound.play();
+        document.getElementById("gameOver").style.display = "inline";
         setTimeout(clearInterval, 0, moving); 
         setTimeout(clearInterval, 0, addStair);
         setTimeout(clearInterval, 0, status);
