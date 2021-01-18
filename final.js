@@ -257,6 +257,11 @@ function initialize(){
     ball.coor.y = 0;
     ball.nodeB.style.left = ball.coor.x + "px";
     ball.nodeB.style.top = ball.coor.y + "px";
+    for(let i=0; i<stairs; i++){ 
+        if(document.getElementById("stair"+i) !== null){ 
+            aStair[i].offset.y = 0.8;
+        }
+    }
     score = 0;
     countC = 5;
     coverText = document.createTextNode("special power: 5 time(s)");
@@ -454,6 +459,56 @@ function gameStart(){
     }, 15);
 
     //other functions
+    var checkScore = setInterval(function level(){
+        console.log("in level");
+        if(score <= 5000){
+            for(let i=0; i<stairs; i++){ 
+                if(document.getElementById("stair"+i) !== null){ 
+                    aStair[i].offset.y = 0.8;
+                }
+            }
+            for(let i=0; i<coins; i++){ 
+                if(document.getElementById("coin"+i) !== null){ 
+                    aCoin[i].offset.y = 1.6;
+                }
+            }
+        }
+        else if(score > 5000 && score <= 8000){
+            for(let i=0; i<stairs; i++){ 
+                if(document.getElementById("stair"+i) !== null){ 
+                    aStair[i].offset.y = 1;
+                }
+            }
+            for(let i=0; i<coins; i++){ 
+                if(document.getElementById("coin"+i) !== null){ 
+                    aCoin[i].offset.y = 2;
+                }
+            }
+        }else if(score > 8000 && score <= 10000){
+            for(let i=0; i<stairs; i++){ 
+                if(document.getElementById("stair"+i) !== null){ 
+                    aStair[i].offset.y = 1.2;
+                }
+            }
+            for(let i=0; i<coins; i++){ 
+                if(document.getElementById("coin"+i) !== null){ 
+                    aCoin[i].offset.y = 2.4;
+                }
+            }
+        }else{
+            for(let i=0; i<stairs; i++){ 
+                if(document.getElementById("stair"+i) !== null){ 
+                    aStair[i].offset.y = 1.5;
+                }
+            }
+            for(let i=0; i<coins; i++){ 
+                if(document.getElementById("coin"+i) !== null){ 
+                    aCoin[i].offset.y = 3;
+                }
+            }
+        }
+    }, 40); //stairs moving faster when score > 5000
+
     function gameOver(){
         gameOverSound.play();
         document.getElementById("gameOver").style.display = "inline";
@@ -467,6 +522,7 @@ function gameStart(){
         setTimeout(clearInterval, 0, appear);
         setTimeout(clearInterval, 0, disappear);
         setTimeout(clearInterval, 0, getCoin);
+        setTimeout(clearInterval, 0, checkScore);
         console.log("game over");
         console.log("score: ", score);
         window.removeEventListener("keydown", control, false);
