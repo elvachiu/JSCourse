@@ -18,12 +18,12 @@ h2{
     text-decoration: underline;
     vertical-align: middle;
 }
-h3{
+h3{ /*for buttons & scoreboard*/
     text-align: center;
     padding: 5px;
     color: whitesmoke;
 }
-h4{
+h4{ /*for the rules, special power & gameover*/
     text-align: left;
     padding: 5px;
 }
@@ -124,7 +124,7 @@ p{ /*for the coins and stairs' deco*/
     border: none;
     display: none;
 }
-.stair{
+.stair{ /*normal stairs*/
     background-color: skyblue;
     width: 50px;
     height: 10px;
