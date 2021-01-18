@@ -25,16 +25,16 @@ class Stair{
         const t = rand(1, 10);
         if(t == 7 || t == 8){
             this.type = types[1]; //type: flip
-            var newP = document.createElement("p");
-            var text = document.createTextNode("vVVVv");
-            newP.appendChild(text);
-            this.nodeS.insertBefore(newP, this.nodeS.childNodes[0]);
+            var pflip = document.createElement("p");
+            var tflip = document.createTextNode("vVVVv");
+            pflip.appendChild(tflip);
+            this.nodeS.insertBefore(pflip, this.nodeS.childNodes[0]);
         }else if(t == 10){
             this.type = types[2]; //type: scroll
-            var newP = document.createElement("p");
-            var text = document.createTextNode("OOOO");
-            newP.appendChild(text);
-            this.nodeS.insertBefore(newP, this.nodeS.childNodes[0]);
+            var pscroll = document.createElement("p");
+            var tscroll = document.createTextNode("OOOO");
+            pscroll.appendChild(tscroll);
+            this.nodeS.insertBefore(pscroll, this.nodeS.childNodes[0]);
         }else{
             this.type = types[0]; //type: normal 
         }
@@ -75,7 +75,7 @@ class Ball{
             x: 0,
             y: 3
         };
-        this.status = 3 //3:falls down, 7:goes up, 5: hit by a bullet, 6: scroll
+        this.status = 3 //3:falls down, 7:goes up, 5: hit by a bullet
         this.nodeB.setAttribute("class", "ball"); //set the style for the ball
     }
     leftWall(){ //bounce back hitting the left wall
@@ -110,7 +110,7 @@ class Bullet{
         }
         this.offset = {
             x: 20
-        }
+        } //only has horizontal speed
         this.nodeBullet = nodeBullet;
         this.nodeBullet.style.left = this.coor.x + "px";
         this.nodeBullet.style.top = this.coor.y + "px";
@@ -139,17 +139,17 @@ class Coin{
             x: left[rand(0, 10)],
             y: 440
         };
-        this.offset = { //the coin goes up
+        this.offset = { //the coin goes up like the stairs
             x: 0,
             y: 1.6
         };
         this.nodeCoin = nodeCoin;
         this.nodeCoin.style.left = this.coor.x + "px";
         this.nodeCoin.style.top = this.coor.y + "px";
-        var newP = document.createElement("p");
-        var text = document.createTextNode("10");
-        newP.appendChild(text);
-        this.nodeCoin.insertBefore(newP, this.nodeCoin.childNodes[0]);
+        var pcoin = document.createElement("p");
+        var tcoin = document.createTextNode("10");
+        pcoin.appendChild(tcoin);
+        this.nodeCoin.insertBefore(pcoin, this.nodeCoin.childNodes[0]);
         this.nodeCoin.setAttribute("class", "coin"); //set the style for the coin
     }
     ceiling(){ //set the ceiling
@@ -257,11 +257,6 @@ function initialize(){
     ball.coor.y = 0;
     ball.nodeB.style.left = ball.coor.x + "px";
     ball.nodeB.style.top = ball.coor.y + "px";
-    for(let i=0; i<stairs; i++){ 
-        if(document.getElementById("stair"+i) !== null){ 
-            aStair[i].offset.y = 0.8;
-        }
-    }
     score = 0;
     countC = 5;
     coverText = document.createTextNode("special power: 5 time(s)");
@@ -379,7 +374,7 @@ function gameStart(){
             if(document.getElementById("stair"+i) !== null && aStair[i].move() == 100){ 
                 let hitCeiling = document.getElementById("stair"+i);
                 hitCeiling.remove(); //remove div
-            }else{ // if(document.getElementById("stair"+i) !== null)
+            }else{
                 aStair[i].move();
             }
         }
@@ -460,7 +455,7 @@ function gameStart(){
 
     //other functions
     var checkScore = setInterval(function level(){
-        console.log("in level");
+        //stairs(& coins) moving faster as scoring more
         if(score <= 5000){
             for(let i=0; i<stairs; i++){ 
                 if(document.getElementById("stair"+i) !== null){ 
@@ -507,7 +502,7 @@ function gameStart(){
                 }
             }
         }
-    }, 40); //stairs moving faster when score > 5000
+    }, 40);
 
     function gameOver(){
         gameOverSound.play();
@@ -544,8 +539,8 @@ function gameStart(){
     }
     
     function control(e){ //use keyboards to control the ball
-        switch(e.code){ //goes left
-            case "ArrowLeft":
+        switch(e.code){
+            case "ArrowLeft": //goes left
                 ball.roll(2);
                 break;
             case "ArrowRight": //goes right
