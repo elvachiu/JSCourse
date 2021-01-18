@@ -581,8 +581,10 @@ function gameStart(){
 //Get the button, and when the user clicks on it, execute gameStart()/replay()
 document.getElementById("startButton").onclick = function startBtn(){
     gameStart();
-    document.getElementById("startButton").disabled = "true"; //use once
+    document.getElementById("startButton").disabled = true; //use once
+    document.getElementById("replayButton").disabled = false; //unlock the replay button
 }
+document.getElementById("replayButton").disabled = true; //the replay button is locked at first
 document.getElementById("replayButton").onclick = function replayBtn(){
     initialize();
     gameStart();
